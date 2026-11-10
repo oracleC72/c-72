@@ -11,36 +11,43 @@
 
 | 路径 | 作用 | 进仓库 |
 |---|---|---|
-| `index.html` | **线上版**，GitHub Pages 唯一入口，内容 = 当前版本文件的完整副本 | ✅ |
-| `C-72自助馆_vX.Y.html` | 本地版本文件（当前是 `v3.15`），改版时改这个 | ❌ |
-| `旧版本/` | 历史版本归档（`v0.9` → `v3.14`，含早前 deepseek 备份与过程文档） | ❌ |
+| `index.html` | **线上版**，Pages 唯一入口。内容是版本文件压缩后的结果，别手改 | ✅ |
+| `C-72自助馆_vX.Y.html` | 本地版本文件（当前 `v3.15`），改版改这个，原画质 | ❌ |
+| `压缩上线.py` | 把版本文件压成 `index.html`（图片转 WebP，见下） | ✅ |
+| `发布.ps1` | 一条命令：选最新版本 → 压缩 → 提交 → 推送 | ✅ |
+| `首次上线.ps1` | 建库 + 推送 + 开 Pages，只在第一次用 | ✅ |
+| `旧版本/` | 历史版本归档（`v0.9` → `v3.14`，含早前备份与过程文档） | ❌ |
 | `原图_20261110/` | 原始素材与裁切后的横图 / 竖卡 / 图标 | ❌ |
 | `预览/`、`交接文档.md`、`问题修改.txt` 等 | 本地工作资料 | ❌ |
 
-`index.html` 一旦和版本文件不一致，线上就是旧内容——所以别手改 `index.html`，用下面的发布脚本。
-
-## 改一版的流程
+## 改一版 + 发布
 
 1. 在 `C-72自助馆_v3.15.html` 上改出 `C-72自助馆_v3.16.html`（新版本号，别覆盖旧文件）。
-2. 把上一版挪进 `旧版本/`（保持根目录只有最新一版）。
-3. 在本文件夹执行：
+2. 把上一版挪进 `旧版本/`，根目录只留最新一版。
+3. 发布：
 
 ```powershell
-.\发布.ps1                  # 自动把最新版本复制成 index.html、提交、推送
-.\发布.ps1 -Message "修 les 标签"   # 想自己写提交说明时
+.\发布.ps1 -Token ghp_xxxx          # 会自动压缩、提交、推送
+.\发布.ps1 -Token ghp_xxxx -Message "修 les 标签"
 ```
 
-4. 等 1–2 分钟，GitHub Pages 构建完就会更新（仓库页 Actions 标签能看到进度）。
+4. 等约 3 分钟，https://oraclec72.github.io/c-72/ 自动更新（仓库 Actions 页能看进度）。
 
-本地想先看效果：直接双击 `index.html` 或 `C-72自助馆_v3.15.html` 都一样能开，不用起服务器。
+本地看效果：双击 `index.html`（压缩版）或 `C-72自助馆_v3.15.html`（原画质）都能开，不用起服务器。
 
-## 体积说明
+## 为什么线上是压缩版
 
-单文件约 50 MB。每发布一次，git 历史就多 50 MB；发布十几次后仓库会接近 1 GB 的软上限。到那时可以把历史压成一条（会丢掉旧提交记录，站点内容不受影响）：
+原件 48.5 MB，GitHub Pages 的部署步骤有 10 分钟硬超时：48 MB 的站点每次都卡在 `Deploy to GitHub Pages`，然后 `Timeout reached` / `Deployment cancelled`，站点一直 404（实测 20 MB、23 MB 都能 1–3 分钟上线）。
+
+所以 `压缩上线.py` 把页面里 340 张内嵌 base64 图按「页面实际显示尺寸的 2 倍」重采样、转 WebP q86：48.5 MB → 23.1 MB，版式、反光、字号、排版逻辑全不碰。原画质一直留在 `C-72自助馆_v3.15.html` 和原图库里，随时能回退或换更大的压缩参数。
+
+## 仓库体积
+
+压缩后每次提交约 23 MB。推十几次后接近 1 GB 软上限时，可以把历史压成一条（丢旧提交记录，站点内容不受影响）：
 
 ```powershell
 git checkout --orphan fresh
-git add index.html README.md .nojekyll .gitattributes
+git add index.html README.md .nojekyll .gitattributes 发布.ps1 首次上线.ps1 压缩上线.py
 git commit -m "重建历史：只保留当前站点"
 git branch -D main
 git branch -m main
@@ -51,12 +58,18 @@ git push -f origin main
 
 - 仓库 `oraclec72/c-72`，公开（Pages 免费版需要公开仓库）。
 - Settings → Pages：Source = `Deploy from a branch`，Branch = `main` / `/ (root)`。
-- 根目录的 `.nojekyll` 别删，否则 Jekyll 会去处理这个 50 MB 的文件。
+- 根目录 `.nojekyll` 别删，免得 Jekyll 去啃这个单文件。
+- 首次上线：`.\首次上线.ps1 -Token ghp_xxxx`。跑完记得把 token 在 GitHub 上 revoke。
 
-首次上线（只需跑一次）：本地仓库已经 init + commit 好了，`origin` 也指向 `oraclec72/c-72`，只差权限。拿到 classic PAT（勾 `repo`）后：
+## 两个必须记住的坑
+
+**代理**：这台机器直连 github.com:443 是通的不了（`git push` 报 `Failed to connect ... port 443`），但系统里挂着 `127.0.0.1:10090` 的本地代理。仓库里已写死 `git config http.proxy http://127.0.0.1:10090`，换机器要重新配一次。
+
+**认证**：`git push` 只认 Basic，不认 Bearer——`Authorization: Bearer <token>` 会被 GitHub 回 `remote: invalid credentials`。正确写法由 `发布.ps1` 代劳：
 
 ```powershell
-.\首次上线.ps1 -Token ghp_xxxx           # 建库 + 推送 + 开 Pages + 等站点能打开
+$b = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes("x-access-token:$Token"))
+git -c "http.extraHeader=Authorization: Basic $b" push
 ```
 
-跑完记得回 GitHub 把那个 token revoke 掉。
+另外 token 勾 `repo` 就够；要往仓库里加 `.github/workflows/` 下的东西，还得额外勾 `workflow`。
