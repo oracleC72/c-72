@@ -52,3 +52,11 @@ git push -f origin main
 - 仓库 `oraclec72/c-72`，公开（Pages 免费版需要公开仓库）。
 - Settings → Pages：Source = `Deploy from a branch`，Branch = `main` / `/ (root)`。
 - 根目录的 `.nojekyll` 别删，否则 Jekyll 会去处理这个 50 MB 的文件。
+
+首次上线（只需跑一次）：本地仓库已经 init + commit 好了，`origin` 也指向 `oraclec72/c-72`，只差权限。拿到 classic PAT（勾 `repo`）后：
+
+```powershell
+.\首次上线.ps1 -Token ghp_xxxx           # 建库 + 推送 + 开 Pages + 等站点能打开
+```
+
+跑完记得回 GitHub 把那个 token revoke 掉。
