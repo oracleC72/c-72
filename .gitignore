@@ -1,0 +1,13 @@
+# 线上站点只推 index.html；下面这些都是本地工作资料，不进仓库
+*.html
+!index.html
+旧版本/
+原图_20261110/
+预览/
+交接文档.md
+问题修改.txt
+正确官网链接.txt
+全部游戏名单.txt
+.acl-recovery/
+*.tmp
+*.log
