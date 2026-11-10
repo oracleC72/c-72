@@ -11,3 +11,6 @@
 .acl-recovery/
 *.tmp
 *.log
+
+index.html.bak
+.github/
