@@ -1,4 +1,391 @@
 <!DOCTYPE html>
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.78（2026-11-12）· 日志页补入口
+  基线：v3.77
+  抽屉那行标签（.drawer-tabs）只在手机上是横排按钮、桌面上是隐藏的，
+  所以桌面根本切不到「日志」。这一版在店长留言正文末尾加一个
+  「站内更新日志 →」，桌面手机都点得到。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.77（2026-11-12）· 站内更新日志
+  基线：v3.76
+  店长留言那个抽屉里加了一页「日志」，两段 V1.1 / V1.0，内容照用户手写的
+  资料\更新日志.md，一个字没改（只把「UI布局」加了空格、数字两边留白）。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.76（2026-11-12）· 指引卡片放宽到 356
+  基线：v3.75
+  第 1 步正文末尾「查看。」只有一个字被挤到第二行，卡片宽 332 放不下，
+  放宽 24px 正好三行内落完。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.75（2026-11-12）· 新手指引四条文案换成用户口述的版本
+  基线：v3.74
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.74（2026-11-12）· 指引收成四步
+  基线：v3.73
+  ① 抽卡那一步不再拦着等抽完，只告诉你「这里能抽，一会自己抽」。
+  ② 收掉「恭喜完成」那一步。第三步指大纲竖签，第四步先把大纲展开、
+     再指里面的图钉（钉住就常驻），点「知道了」直接结束。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.73（2026-11-12）· 指引盖在顶栏之上
+  基线：v3.72
+  顶栏 z-index 901（v3.40 为了让 backdrop-filter 不糊自己的字提上去的），
+  指引暗层原来只有 130，导航栏整条露在外面还点得到，点一下就把抽屉
+  开在暗层底下。这一版把指引提到 960。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.72（2026-11-12）· 指引不再吃点击
+  基线：v3.71
+  .tour 这层铺满视口且没关 pointer-events，洞里那块看着亮着，鼠标点下去
+  却先落在它身上 —— 第 2 步的「到此一游」等于点不动。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.71（2026-11-12）· 新手指引收口
+  基线：v3.70
+  ① 「点上面那块…」那行提示条本该只在抽卡那一步出现，hidden 被自己的
+     display 盖掉了，四步全程都挂着 —— 补 .tour-hint[hidden]。
+  ② 检索大纲竖签贴在视口左边缘，卡片原来压在圈上，改成放到竖签右侧居中。
+  ③ 最后一步的「跳过指引」收掉。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.70（2026-11-12）· 新手指引改挂到 body 开头
+  基线：v3.69
+  v3.68 把它插在 </body> 后面，解析器把它顺进了 #visit-modal（那个弹窗
+  opacity:0），所以 DOM 里明明在，页面上一点影子都没有。这一版换位置。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.69（2026-11-12）· 修新手指引没自动起来
+  基线：v3.68
+  等待「欢迎窗关掉」的轮询被一条 2.6 秒兜底一起清掉，点完「知道了，开饭」
+  指引不会出现。这一版把兜底条件改对。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.68（2026-11-12）· 桌面端新手指引
+  基线：v3.67
+
+  用户点掉「初次造访须知」之后，接着走五步：
+    店长留言在哪 → 抽第一张推荐（等抽完关掉日历再往下走）→ 检索大纲 →
+    游戏窗口看详情 → 恭喜完成。
+  走完写 localStorage(c72_tour_1)；下次访问不再出现。手机端这一版先不做。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.67（2026-11-12）· 搜索条挪位后仍吸顶
+  基线：v3.66
+  v3.65 把它放进内容流时顺手改成了 static，滚到下面搜索就没了。这一版还回吸顶，
+  底色取页面底色 #1c1917，静止时不成一条横带，吸住时才挡住下面的内容。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.66（2026-11-12）· 搜索框占位文字修一行
+  基线：v3.65
+  搜索条从吸顶整行缩进内容区之后，输入框窄了约 10px，「输入游戏名称 / 玩法类型 /
+  厂商搜索」会被切在最后两个字。字号 .9rem→.84rem、左右内边距收一档，正好放下。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.65（2026-11-12）· 手机端搜索条下移 + 「留言墙」缩成「墙」
+  基线：v3.64
+
+  1. 手机上那条搜索（搜索框 + 筛选）从导航栏正下方挪到「店长精选」下面、
+     分区 chips 上面，也就是原来空着的那一条。桌面端不动。
+  2. 顶栏「留言墙」在手机上只留一个字「墙」，桌面仍写「留言墙」。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.64（2026-11-12）· 店长留言贴到在线人数左边
+  基线：v3.63
+
+  v3.63 只是把它挪出了 nav-links，顶上还留在左半区（x=707）。这一版让左侧空出来的
+  空间全部让给它，右边依次是 店长留言 / 在线人数 / 音效，三个贴在一起。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.63（2026-11-12）· 桌面端「店长留言」挪到在线人数左边 + 投稿加字
+  基线：v3.62
+
+  1. 桌面顶栏左组只剩 出餐窗口 / 头部厂商 / 独立团队 / 留言墙；「店长留言」搬到
+     在线人数那颗胶囊左边，前面加一个厨师帽图标。
+  2. 顶栏那颗 📮 旁边补「投稿」两个字，光看图标不容易懂。
+  手机端不动：仍然用 nav-links 里那个「店长留言」，📮 仍是纯图标。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.62（2026-11-12）· 投稿入口两边都放在顶栏末尾
+  基线：v3.61
+
+  桌面端原来那颗「📮 投稿 / 纠错」胶囊在抽屉右上角，手机端已经在顶栏末尾。
+  这一版把桌面也改成顶栏末尾那颗 📮（和「留言墙」后面紧挨着），抽屉里两边都不再放。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.61（2026-11-12）· 手机抽屉里的投稿按钮撤掉
+  基线：v3.60
+
+  顶栏已经有那颗 📮，抽屉（店长留言 / 厂商 / 个人 / 留言墙 四个栏目共用一个头）
+  里就不再重复一颗。手机上隐藏 #notice-submit，顶栏 📮 仍然走它同一个弹窗。
+  桌面端不动。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.60（2026-11-12）· 顶栏导航的字重统一
+  基线：v3.59
+
+  「头部厂商 / 独立团队」是 button 里套了 span（.nl-full / .nl-short），原来那条
+  `.nav-links span { color: main; font-weight: bold }` 本意只给「出餐窗口」这个
+  span 用的，却把这些按钮里的 span 一起染成加粗白字。改成只认直接子节点。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.59（2026-11-12）· 空墙那句话 + 去掉那行小字
+  基线：v3.58
+
+  1. 墙上还空着时改说「快来发布你的第一条留言吧！」。
+  2. 「匿名 · 公开 · 每 30 秒一条」那行去掉（输入框下方不再占位，报错提示照旧）。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.58（2026-11-12）· 留言墙三处文案同步到桌面端
+  基线：v3.57
+
+  1. 占位文案：两边都写「随便说点什么...」。
+  2. 留言墙说明：两边都只留「这里可以留下你的痕迹，欢迎友好交流。」，
+     v3.55 那套长短版 span 拆掉。
+  3. 状态行：两边都念「留言 N 条 · 已上墙」。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.57（2026-11-12）· 手机留言输入框的占位文案换短句
+  基线：v3.56
+
+  留言输入框原本写着「想说点什么？比如今天哪一口吃得最值…」，手机上换成
+  「随便说点什么...」。桌面那句不动，按断点由 place() 切换。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.56（2026-11-11）· 手机留言墙说明再收一句、状态行换说法
+  基线：v3.55
+
+  1. 手机版说明只留「这里可以留下你的痕迹，欢迎友好交流。」，后面那句不用登录 / 200 字 /
+     30 秒一条删掉（输入框上已经写着）。桌面原文不动。
+  2. 手机上「墙上 3 条 · 正在飘」改成「留言 3 条 · 已上墙」；桌面仍用原说法。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.55（2026-11-11）· 手机留言墙的说明收短
+  基线：v3.54
+
+  留言墙那段说明在手机上太长：去掉那串「禁止色情、辱骂…见一条删一条」，
+  只留「可以留下痕迹、欢迎友好交流」和不用登录 / 200 字 / 30 秒一条。
+  桌面那一段保持原样（两个 span 按断点切换）。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.54（2026-11-11）· 手机店长精选：海报铺满整张卡
+  基线：v3.53
+
+  1. 手机小名片的海报改成铺满整张卡：折叠的那几张也铺，只压暗 + 虚化，竖排名字压在上面；
+     展开那张海报不变形、名字和类型压在底部一条渐变上。舞台高度回到 118px。
+  2. 索引列表的「#」组从最末挪到最前（第一款是 1比1人形食玩）。
+  桌面端不动。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.53（2026-11-11）· 手机端分区 chips 挪到索引列表上方
+  基线：v3.52
+
+  手机端那一行「全部 / 二游 / 独游 / 其他 / LGBT 专柜」原来贴在搜索框下面，
+  把店长精选顶下去了；挪到店长精选下面、索引列表上面（用户给的示意位置）。
+  桌面端不动：chips 本来在桌面上就是 display:none，还原时照旧放回原位。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.52（2026-11-11）· 顶栏投稿入口改用 📮 图标
+  基线：v3.51
+
+  手机上那颗「投稿」文字按钮改成只放抽屉里同一个 📮 图标（20px 见方，没有边框），
+  aria-label / title 还是「投稿 / 纠错」。桌面端不动。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.51（2026-11-11）· 手机顶栏：厂商 / 个人 简称 + 投稿入口
+  基线：v3.50
+
+  桌面端仍然一行未改（新元素在桌面上是 display:none，只换了一段按钮文案的分段写法）。
+
+  1. 顶栏「头部厂商」在手机上缩成「厂商」、「独立团队」缩成「个人」；桌面仍是原字。
+     做法是把文案拆成 .nl-full / .nl-short 两段，手机换显哪一段。
+  2. 腾出来的位置加一颗「投稿」，点它等于点抽屉里那颗 📮，直接弹投稿 / 纠错窗口。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.50（2026-11-11）· 手机端：顶栏放四个入口、厂商卡片收成图标网格
+  基线：v3.49
+
+  桌面端一行未改（全部规则都在 @media max-width:760px 里）。
+
+  1. 顶栏：把抽屉里那四个入口（店长留言 / 头部厂商 / 独立团队 / 留言墙）直接摆到
+     导航栏，「☰ 菜单」撤掉；抽屉头里的四个 tab 同时隐藏，抽屉只剩「投稿 / 纠错」和 ✕。
+  2. 厂商 / 独立团队：卡片原来 268px 起一列一张，手机上一屏看不了几家。改成图标网格，
+     名字和简介收起（鼠标悬停浮层那套只对桌面有意义），普通 logo 一排 3 张、圆形头像
+     一排 6 张。
+  3. 店长精选小名片：点一下只摊开、已摊开的再点才开详情。原来点不动是因为触屏在 click
+     之前先发一次 mouseover，把 openIdx 提前改成了被点那张，click 时判定「已经是展开
+     态」就直奔详情。悬停那几段在手机上直接 return。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.17（2026-11-10）移动端 UI 重构
+  基线：v3.16
+
+  v3.16 只是「把 PC 布局压小」，结果手机上：筛选按钮一大坨、要划很久才见到游戏、
+  卡片大到一屏看不了一款。这一版是重新排信息架构，不是在原样上打补丁。
+
+  手机端（<=760px）的新结构：
+    [导航 54px]  logo + ☰菜单 + 音效
+    [吸顶 52px]  搜索框 + 「筛选 N」按钮        ← 永远在手边
+    [分区 chips] 全部 / 二游 / 独游 / 其他 / LGBT  ← 一行横滑，点一下就换
+    [游戏列表]   紧凑行：图标 46 + 名字 / 厂商 / 状态，一屏约 9-10 款
+    [店长精选]   默认折叠成一行，点「展开」才出现
+    [底部]       手机专区 / 到此一游小挂签
+
+  筛选全部收进底部抽屉（bottom sheet）：点「筛选」从下面升起来，
+  里面是原来的 菜品分区 / 出餐状态 / 菜品份量 / 热门口味 + 排序 + 清空，
+  底部一个「看 N 道菜」大按钮。抽屉可下拉关闭。
+
+  桌面端：一行 CSS 都不加（全在 @media max-width:760px 里）。
+  节点位置由 JS 在断点切换时原样还原，PC 结构与 v3.16 完全一致。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.49（2026-11-11）· 海报取图回退
+  基线：v3.48
+
+  v3.48 把海报取图换成 VPOSTERS / POSTERS 之后，PC 端店长精选和详情弹窗的
+  海报整片变了样（竖版图塞进宽条、观感"放大过、内容变少"），用户要求回退。
+
+  这一版做的事：
+    1. 删掉 posterFor() / hasRealPoster()，PC 端卡片与详情弹窗回到 v3.47 的
+       g.poster || g.cover，一行取图逻辑都没动。
+    2. 手机展开卡上那条横版海报保留（用户上一轮要的），但按真实比例分：
+       横向铺满 cover、竖向整张缩进 contain，竖图不再被裁成一条。
+    3. v3.48 的其余改动（顶栏 C-72、菜单精简、轮播、点两下、到此一游收紧、
+       旧版本整理）原样保留。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
+  C-72 自助馆 · v3.48（2026-11-11）· 竖版海报取原图、手机端顶栏/菜单/到此一游/轮播收口
+  ===========================================================================
+  C-72 自助馆 · v3.47（2026-11-11）· 手机端店长精选改成横排堆叠小名片；去掉开弹窗时背景左移 5px 的补丁
+  ===========================================================================
+  C-72 自助馆 · v3.46（2026-11-11）· 修「页面滚到下面再开弹窗，顶部导航栏整条消失」：锁滚动改成锁 html
+  ===========================================================================
+  C-72 自助馆 · v3.45（2026-11-11）· 移动端专项：店长精选改成名字+类型的小名片、游戏区改成索引列表、详情弹窗收紧
+  ===========================================================================
+  C-72 自助馆 · v3.44（2026-11-11）· 到此一游的庆祝动画只在抽到新卡时播（已抽过的关开、翻回再翻都不再播）
+  ===========================================================================
+  C-72 自助馆 · v3.43（2026-11-11）· 手游窗口「在营」标签挪到名字同一行
+  ===========================================================================
+  C-72 自助馆 · v3.42（2026-11-11）· 主搜索框占位文案改用斜杠分隔（输入游戏名称 / 玩法类型 / 厂商搜索）
+  ===========================================================================
+  C-72 自助馆 · v3.41（2026-11-11）· 主搜索框占位文案改成「输入游戏名称 玩法类型 厂商搜索」
+  ===========================================================================
+  C-72 自助馆 · v3.40（2026-11-11）· 详情弹窗打开时导航栏不再被遮罩盖住（字不再糊没）
+  ===========================================================================
+  C-72 自助馆 · v3.39（2026-11-11）· 搜索框占位文案改成「输入游戏名称搜索」
+  ===========================================================================
+  C-72 自助馆 · v3.38（2026-11-11）· 搜索框占位文案改成「搜名字」
+  ===========================================================================
+  C-72 自助馆 · v3.37（2026-11-11）· 大纲条目点第二次取消选中（行与右侧卡片的常亮一起灭）
+  ===========================================================================
+  C-72 自助馆 · v3.36（2026-11-11）· 字母轴加宽到 38px（选中/悬停的框不再被裁）、
+  大纲点条目后行保持高亮，右侧卡片除闪动外再套一圈常驻高亮
+  ===========================================================================
+  C-72 自助馆 · v3.35（2026-11-11）· 分界线贴着大纲右缘（空隙挪到线与店长精选之间）、
+  收起态由通高竖条改成一枚竖标签小牌
+  ===========================================================================
+  C-72 自助馆 · v3.34（2026-11-11）· 大纲栏随左侧空档加宽（最高 320px）、字母轴与名字松一点、
+  栏与分界线之间留 12px 间隙
+  ===========================================================================
+  C-72 自助馆 · v3.33（2026-11-11）· 字母筛选加「全部」清除键，列表名字与字母轴字号放大一档
+  ===========================================================================
+  C-72 自助馆 · v3.32（2026-11-11）· 店长精选左边加竖向分界线，大纲贴在分界线左侧、往左展开
+  ===========================================================================
+  C-72 自助馆 · v3.31（2026-11-11）· 去掉字母轴放大镜气泡，只留字母本身放大
+  ===========================================================================
+  C-72 自助馆 · v3.30（2026-11-11）· 检索大纲改图钉常驻 + 点空白收起
+  ===========================================================================
+  C-72 自助馆 · v3.29（2026-11-11）· 检索大纲加 A–Z 字母轴
+  ===========================================================================
+  C-72 自助馆 · v3.28（2026-11-11）· 左边缘「检索大纲」
+  ===========================================================================
+  C-72 自助馆 · v3.16（2026-11-10）
+  基线：v3.15（未压缩原版）
+  本版只做一件事：移动端适配。桌面端布局、配色、交互一行未改。
+
+  改了什么：
+    1. 导航栏：手机宽度下高度收到 54px，新增「☰ 菜单」按钮。
+       原来手机上是把「店长留言 / 头部厂商 / 独立团队」三个入口
+       直接 display:none 藏掉的，等于手机上根本进不去留言板 —— 这是修 bug。
+    2. 搜索：搜索框原来长在 content-area 里，手机上要滚过整个侧栏才看得到。
+       现在用 JS 把 .content-header 提到导航下面做成吸顶条，随时能搜。
+       只移动 DOM 位置、不复制输入框，事件绑定原样保留。
+    3. 到此一游吊牌：原来是 fixed 钉在右上角，会盖住「店长精选」的标签行。
+       手机上改成右下角小挂签，不压内容，也不挡点击。
+    4. 店长精选：标签行改成横向滑动（不再换行占两行），卡片宽度 84%。
+    5. 主体：761–560 之间原来还是左右两栏（220px 侧栏挤在手机屏上），
+       现在 760 以下统一竖排。
+    6. 卡片网格：手机上两列（146px 起），弹窗改成占满宽、欢迎卡片
+       限高 84vh 可滚动，避免长文案被屏幕切掉。
+
+  怎么验证：把窗口拖到 390px 宽，或手机直接打开，逐项看上面 6 条。
+  ===========================================================================
+-->
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -59,7 +446,9 @@
             padding: 0 40px;
             position: sticky;
             top: 0;
-            z-index: 100;
+            /* v3.40：原来 100，被详情弹窗的遮罩（900）压在下面，backdrop-filter 把导航栏的字一起糊掉。
+               提到 901 之后导航栏自己永远清晰，只糊它下面的内容。 */
+            z-index: 901;
         }
 
         .logo-area { display: flex; align-items: center; gap: 12px; margin-right: 40px; cursor: pointer; text-decoration: none; color: inherit; }
@@ -88,8 +477,9 @@
             border-bottom: 1px solid transparent; transition: color .15s, border-color .15s;
         }
         .nav-drawer-btn:hover { color: var(--primary); border-bottom-color: var(--primary); }
-        .nav-links span { cursor: default; color: var(--text-main); font-weight: bold;}
-        .nav-links span.active { color: var(--primary); }
+        /* v3.60：只认「出餐窗口」那个直接子 span，别再连累按钮里的 .nl-full / .nl-short */
+        .nav-links > span { cursor: default; color: var(--text-main); font-weight: bold; }
+        .nav-links > span.active { color: var(--primary); }
 
         /* --- 店长留言板 --- */
         .notice-board {
@@ -171,6 +561,9 @@
         }
         .notice-submit:hover { filter: brightness(1.08); box-shadow: 0 4px 18px rgba(249,115,22,0.55); transform: translateY(-1px); }
         .notice-submit:active { transform: translateY(0) scale(.97); }
+        /* v3.62：四个栏目共用的抽屉头里不再放投稿胶囊，入口统一到顶栏末尾那颗 📮
+           （顶栏按钮走的是 #notice-submit.click()，隐藏元素照样能派发 click） */
+        #notice-submit { display: none !important; }
         .notice-submit .ns-icon { font-size: 0.9rem; line-height: 1; }
 
         /* --- 留言板标签页 --- */
@@ -182,7 +575,7 @@
         }
         .notice-tab:hover { border-color: var(--primary); color: var(--text-main); }
         .notice-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 700; }
-        .notice-panel[hidden] { display: none; }
+        .notice-panel[hidden] { display: none !important; }   /* v3.48：#panel-wall 的 id 选择器压过了这条，四个面板会一起显示 */
 
         /* --- 厂商卡片：默认收起，只摆 logo + 名字 + 一句介绍；作品列表在悬停浮层里展开 --- */
         .pub-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(268px, 1fr)); gap: 10px; margin-top: 4px; }
@@ -257,7 +650,9 @@
             font-family: monospace; font-size: 0.7rem; color: #a8a29e;
             border: 1px solid #3f3a36; border-radius: 3px; padding: 1px 7px; flex-shrink: 0;
         }
-        .mobile-chips { display: flex; flex-wrap: wrap; gap: 6px 14px; }
+        /* flex: 1 1 0 + min-width:0：名字这一串原来是 max-content 宽度，超过一行就被整体挤到下一行，
+           于是左边的「在营」标签独占一行、右边空一大截。basis 归零后它留在标签同一行，内部自己换行。 */
+        .mobile-chips { display: flex; flex-wrap: wrap; gap: 6px 14px; flex: 1 1 0; min-width: 0; }
         .mobile-chip {
             font-size: 0.8rem; color: #d6d3d1; cursor: default;
             border-bottom: 1px dotted #57534e; padding-bottom: 1px;
@@ -459,7 +854,7 @@
         .content-area { flex-grow: 1; min-width: 0; }
         .content-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; row-gap: 10px; }
         .content-header h2 { font-size: 1.2rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
-        .content-header h2::before { content: '🪟'; font-size: 1.2rem; }
+        .content-header h2::before { content: none; }
         /* 排序下拉：暗色皮肤 */
         .sort-wrap { display: inline-flex; align-items: center; gap: 6px; }
         .sort-label { font-size: 0.72rem; color: var(--text-sub); font-family: monospace; letter-spacing: 1px; }
@@ -541,6 +936,8 @@
             opacity: 0; pointer-events: none; transition: opacity 0.22s ease; z-index: 900;
         }
         .modal-mask.open { opacity: 1; pointer-events: auto; }
+        /* 详情弹窗开着时，导航栏虽然浮在遮罩上，但不接鼠标 */
+        body:has(.modal-mask.open) .navbar { pointer-events: none; }
         /* 横向版：左边海报、右边简介 */
         .modal-card {
             /* 高度压到 560：600×900 / 400×600 的海报按原尺寸就能铺满，不再放大变糊 */
@@ -1612,8 +2009,1704 @@
         #ffffff 93%);
 }
 </style>
+
+
+<style id="mobile-adapt-v317">
+/* ==================================================================
+   v3.17 · 移动端重构（仅 max-width:760px）
+   ================================================================== */
+
+/* --- 桌面端：这些移动专用件一律不出现 --- */
+.m-filter-btn, #quick-cats, #filter-sheet, #filter-mask, .cur-toggle { display: none; }
+
+/* 手机菜单按钮（沿用 v3.16） */
+.nav-mobile-menu {
+    display: none; align-items: center; gap: 5px;
+    background: transparent; border: 1px solid #3f3a36; color: var(--text-sub);
+    font-family: inherit; font-size: .82rem; letter-spacing: .5px;
+    padding: 6px 11px; border-radius: 999px; cursor: pointer;
+}
+.nav-mobile-menu:hover, .nav-mobile-menu:active { color: var(--primary); border-color: var(--primary); }
+
+#mobile-bar { display: none; }
+
+@media (max-width: 760px) {
+
+    /* ============ 顶部 ============ */
+    .navbar { height: 52px; padding: 0 12px; gap: 8px; }
+    .logo-area { margin-right: 0; gap: 7px; }
+    .burger-icon { font-size: 1.3rem; }
+    .logo-title { font-size: .98rem; letter-spacing: .3px; }
+    .logo-sub, .open-sign, .nav-links, .fortune-ribbon { display: none !important; }
+    .nav-mobile-menu { display: inline-flex; }
+    .sound-toggle { margin-left: auto; padding: 4px 9px; font-size: .64rem; }
+
+    /* 吸顶：搜索 + 筛选 */
+    #mobile-bar {
+        display: block;
+        position: sticky; top: 52px; z-index: 70;
+        background: rgba(23,20,18,0.985);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 8px 10px;
+    }
+    .m-top { display: flex; align-items: center; gap: 8px; }
+    .m-top #search-wrap { flex: 1 1 auto; min-width: 0; margin: 0; }
+    .m-top .game-search {
+        width: 100%; font-size: .9rem; padding: 9px 34px;
+        border-radius: 10px; background: #14110f; border-color: #3a332d;
+    }
+    .m-top .search-icon { left: 11px; font-size: .9rem; }
+    .m-top .search-clear { right: 8px; }
+
+    .m-filter-btn {
+        display: inline-flex; align-items: center; gap: 5px;
+        flex: 0 0 auto;
+        padding: 9px 12px; border-radius: 10px;
+        border: 1px solid #4a423a; background: #241f1b;
+        color: var(--text-main); font-family: inherit; font-size: .82rem;
+        cursor: pointer;
+    }
+    .m-filter-btn .n {
+        font-size: .62rem; font-weight: 900; line-height: 1;
+        background: var(--primary); color: #1c1917;
+        border-radius: 999px; padding: 2px 5px;
+    }
+    .m-filter-btn.on { border-color: var(--primary); color: var(--primary); }
+    .m-filter-btn.on .n { background: var(--primary); }
+
+    /* 分区 chips：一行横滑，不吸顶（滚走让位给列表） */
+    #quick-cats {
+        display: flex; align-items: center; gap: 8px;
+        padding: 6px 2px 8px;   /* v3.53：这行从搜索框下面挪到了索引列表上方 */
+    }
+    .qc-scroll {
+        display: flex; align-items: center; gap: 6px;
+        flex: 1 1 auto; min-width: 0;
+        overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+    }
+    .qc-scroll::-webkit-scrollbar { display: none; }
+    .qc {
+        flex: 0 0 auto; padding: 6px 12px; border-radius: 999px;
+        border: 1px solid #3f3a36; background: transparent;
+        color: var(--text-sub); font-family: inherit; font-size: .78rem;
+        white-space: nowrap; cursor: pointer;
+    }
+    .qc.on { background: var(--primary); border-color: var(--primary); color: #1c1917; font-weight: 800; }
+    #quick-cats .band-count {
+        display: inline-flex !important; flex: 0 0 auto;
+        font-size: .68rem; color: var(--text-sub); white-space: nowrap;
+    }
+
+    /* ============ 列表区 ============ */
+    .main-layout { flex-direction: column; padding: 10px 10px 80px; gap: 10px; }
+    .content-area { width: 100%; }
+    .content-area > .content-header { display: none; }   /* 标题/排序都搬走了 */
+    .sidebar { display: none; }                          /* 侧栏进抽屉，页面上不再占位 */
+
+    /* 游戏：一行一款 */
+    #game-grid { display: flex; flex-direction: column; gap: 6px; }
+
+    .game-card { position: relative; display: block; padding: 0; }
+
+    .window-frame {
+        position: absolute; left: 9px; top: 50%; transform: translateY(-50%);
+        width: 46px; height: 46px; padding: 0; border: 0; border-radius: 11px;
+        background: #2a2a2a; box-shadow: none; aspect-ratio: auto;
+        overflow: hidden; z-index: 2;
+    }
+    .window-interior { width: 100%; height: 100%; border-radius: 11px; box-shadow: none; }
+    .game-logo {
+        width: 100%; height: 100%; max-width: 100%; max-height: 100%;
+        object-fit: cover; border-radius: 11px; box-shadow: none; transform: none;
+    }
+    .hover-actions { display: none !important; }
+
+    .receipt {
+        margin-top: 0; padding: 9px 12px 9px 64px; min-height: 64px;
+        border-radius: 12px; display: flex; flex-direction: column; justify-content: center;
+        -webkit-mask-image: none; mask-image: none;
+    }
+    .receipt-head { gap: 6px; align-items: center; justify-content: flex-start; }
+    .receipt-name { font-size: .92rem; margin: 0; line-height: 1.2; text-transform: none; }
+    .receipt-dev { font-size: .66rem; margin: 2px 0 0; }
+    .cat-badge { font-size: .55rem; padding: 1px 5px; letter-spacing: .4px; margin-left: auto; }
+    .receipt-divider, .receipt-foot { display: none; }
+    .receipt-row {
+        display: inline-flex; gap: 5px; justify-content: flex-start;
+        font-size: .62rem; margin: 3px 0 0;
+    }
+    /* 手机上「STATUS」这个英文标签是纯噪音，只留状态值 */
+    .receipt-row .receipt-label { display: none; }
+    .receipt-row ~ .receipt-row { display: none; }
+    /* 口味小签：内联样式是 display:flex，必须 !important 才压得住 */
+    .receipt > div[style*="flex-wrap"] { display: none !important; }
+    .status-clip { top: -5px; right: 8px; font-size: .54rem; padding: 2px 6px; }
+
+    /* ============ 店长精选：默认折叠 ============ */
+    .curation { margin: 6px auto 0; padding: 0 10px; }
+    .curation-head { align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .curation-title { flex: 1 1 auto; }
+    .curation-tabs { order: 1; }
+    .curation-title h2 { font-size: 1rem; }
+    .curation-title p { display: none; }
+    .cur-toggle {
+        display: inline-flex; margin-left: auto; flex: 0 0 auto;
+        padding: 5px 11px; border-radius: 999px;
+        border: 1px solid #3f3a36; background: transparent;
+        color: var(--text-sub); font-family: inherit; font-size: .74rem; cursor: pointer;
+    }
+    .curation.cur-min .curation-tabs,
+    .curation.cur-min .curation-stage { display: none; }
+    .curation-tabs {
+        margin-left: 0; width: 100%; flex-wrap: nowrap;
+        overflow-x: auto; padding-bottom: 3px; scrollbar-width: none;
+    }
+    .curation-tabs::-webkit-scrollbar { display: none; }
+    .curation-tab { flex: 0 0 auto; white-space: nowrap; font-size: .72rem; padding: 5px 10px; }
+    .curation-stage { height: 260px; gap: 8px; }
+    .c-item, .c-item.open { flex: 0 0 84%; }
+    .c-name { font-size: .98rem; }
+    .c-intro { font-size: .74rem; }
+
+    /* ============ 底部抽屉：筛选 ============ */
+    #filter-mask {
+        display: block;
+        position: fixed; inset: 0; z-index: 90;
+        background: rgba(6,4,3,.6);
+        opacity: 0; pointer-events: none; transition: opacity .2s;
+    }
+    #filter-mask.show { opacity: 1; pointer-events: auto; }
+
+    #filter-sheet {
+        display: flex; flex-direction: column;
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 91;
+        max-height: 82vh;
+        background: #1f1c19;
+        border-top: 1px solid #3f3831;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -16px 40px rgba(0,0,0,.6);
+        transform: translateY(101%);
+        transition: transform .26s cubic-bezier(.2,.8,.2,1);
+        pointer-events: none;
+    }
+    #filter-sheet.open { transform: translateY(0); pointer-events: auto; }
+
+    .fm-grip { width: 38px; height: 4px; border-radius: 2px; background: #4a423a; margin: 8px auto 0; flex: 0 0 auto; }
+    .fm-head {
+        display: flex; align-items: center; gap: 8px;
+        padding: 8px 14px 9px; flex: 0 0 auto;
+        border-bottom: 1px solid #332e29;
+    }
+    .fm-title { font-size: .95rem; font-weight: 900; }
+    .fm-reset {
+        margin-left: auto; padding: 4px 11px; border-radius: 999px;
+        border: 1px solid #4a423a; background: transparent;
+        color: var(--text-sub); font-family: inherit; font-size: .74rem; cursor: pointer;
+    }
+    .fm-close {
+        width: 28px; height: 28px; border-radius: 50%;
+        border: 1px solid #4a423a; background: transparent;
+        color: var(--text-sub); font-size: .78rem; line-height: 1; cursor: pointer;
+    }
+    .fm-body { overflow-y: auto; padding: 12px 14px 6px; -webkit-overflow-scrolling: touch; }
+    .fm-foot {
+        flex: 0 0 auto; padding: 10px 14px;
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        border-top: 1px solid #332e29; background: #1f1c19;
+    }
+    .fm-apply {
+        width: 100%; padding: 12px; border: 0; border-radius: 12px;
+        background: var(--primary); color: #1c1917;
+        font-family: inherit; font-size: .95rem; font-weight: 900; cursor: pointer;
+    }
+
+    /* 抽屉里的侧栏：去掉吸顶和固定宽，铺满 */
+    #filter-sheet .sidebar { display: block; position: static; width: 100%; }
+    #filter-sheet .sort-wrap {
+        display: flex; align-items: center; gap: 10px;
+        padding-bottom: 12px; margin-bottom: 12px;
+        border-bottom: 1px dashed #3a332d;
+    }
+    #filter-sheet .sort-label { font-size: .76rem; color: var(--text-sub); }
+    #filter-sheet .sort-select { font-size: .82rem; padding: 6px 8px; }
+    #filter-sheet .fg-note { display: none; }   /* 手机抽屉里省地方，规则说明不上手机 */
+
+    /* ============ 到此一游：右下角小圆签 ============ */
+    .visit-hang {
+        position: fixed; top: auto; bottom: 14px; right: 12px; left: auto;
+        margin: 0; z-index: 56; transform: none; animation: none;
+        display: flex; flex-direction: column; align-items: center; pointer-events: auto;
+    }
+    .vh-string, .vh-ring { display: none; }
+    .visit-btn.visit-tag {
+        width: 56px; height: 56px; min-width: 0; padding: 0; gap: 0;
+        flex-direction: column; align-items: center; justify-content: center;
+        border-radius: 16px; box-shadow: 0 8px 22px rgba(0,0,0,.55);
+    }
+    .visit-tag::before { display: none; }
+    .vt-top { font-size: 1.15rem; }
+    .vt-name { writing-mode: horizontal-tb; font-size: .56rem; letter-spacing: 0; }
+    .vt-sub { display: none; }
+
+    /* ============ 弹窗 ============ */
+    .welcome-card { width: 100%; max-height: 84vh; overflow-y: auto; padding: 18px 16px 15px; border-radius: 12px; }
+    .welcome-title { font-size: 1.1rem; }
+    .welcome-body { font-size: .9rem; line-height: 1.6; }
+    .welcome-actions { gap: 8px; flex-wrap: wrap; }
+    .notice-board { top: 60px; width: 94vw; height: 82vh; padding: 14px; }
+    .modal-card { width: 100%; }
+
+    .mobile-strip { padding: 18px 12px 0; }
+}
+</style>
+
+    <style id="v318-wall-css">
+        /* ============ v3.18 · 留言墙 + 顶部弹幕 ============ */
+
+        /* 弹幕层：贴导航下方，纯装饰，不拦鼠标 */
+        #c72-barrage {
+            position: fixed; left: 0; right: 0; top: 70px; height: 56px;
+            overflow: hidden; pointer-events: none; z-index: 80;
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+                    mask-image: linear-gradient(90deg, transparent 0, #000 4%, #000 96%, transparent 100%);
+        }
+        #c72-barrage .bar-x {
+            position: absolute; left: 0; white-space: nowrap;
+            font-family: monospace; font-size: 0.82rem; line-height: 1;
+            padding: 5px 11px; border-radius: 999px;
+            background: rgba(26, 23, 21, 0.32); border: 1px solid rgba(249, 115, 22, 0.2);
+            color: rgba(245, 239, 232, 0.8); box-shadow: 0 1px 7px rgba(0, 0, 0, 0.16);
+            -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px);
+            animation-name: c72-bar-move; animation-timing-function: linear;
+            animation-fill-mode: forwards; will-change: transform;
+        }
+        #c72-barrage .bar-x .b-nick { color: #fbbf24; font-weight: 700; margin-right: 2px; }
+        #c72-barrage .bar-x.fresh {
+            border-color: rgba(251, 191, 36, 0.46);
+            box-shadow: 0 0 9px rgba(251, 191, 36, 0.2);
+        }
+        @keyframes c72-bar-move {
+            from { transform: translateX(100vw); }
+            to   { transform: translateX(-100%); }
+        }
+        @media (max-width: 760px) {
+            #c72-barrage { top: 52px; height: 50px; }
+            #c72-barrage .bar-x { font-size: 0.78rem; padding: 5px 10px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #c72-barrage { display: none; }
+        }
+
+        /* 留言墙面板 */
+        #panel-wall { display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+        .wall-top {
+            display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+            font-family: monospace; font-size: 0.76rem; letter-spacing: 0.5px; color: #a8a29e;
+        }
+        .wall-dot {
+            width: 7px; height: 7px; border-radius: 50%; flex: 0 0 auto;
+            background: #22c55e; box-shadow: 0 0 9px rgba(34, 197, 94, 0.75);
+            transition: background 0.2s ease, box-shadow 0.2s ease;
+        }
+        .wall-dot.off { background: #ef4444; box-shadow: 0 0 9px rgba(239, 68, 68, 0.55); }
+        .wall-count { margin-right: auto; }
+        .wall-refresh {
+            background: transparent; border: 1px solid #44403c; color: #a8a29e;
+            font-family: monospace; font-size: 0.72rem; letter-spacing: 1px;
+            padding: 4px 11px; border-radius: 999px; cursor: pointer; transition: all 0.15s ease;
+        }
+        .wall-refresh:hover { border-color: var(--primary); color: #f5f5f4; }
+
+        .wall-write {
+            display: grid; gap: 7px; flex-shrink: 0;
+            background: rgba(255, 255, 255, 0.03); border: 1px solid #3f3a36;
+            border-radius: 12px; padding: 10px;
+        }
+        .wall-nick {
+            width: 100%; box-sizing: border-box; background: #1c1917; border: 1px solid #3f3a36;
+            border-radius: 8px; color: #f5f5f4; font-family: inherit; font-size: 0.82rem;
+            padding: 7px 10px; outline: none; transition: border-color 0.15s ease;
+        }
+        .wall-nick:focus, .wall-body:focus { border-color: var(--primary); }
+        .wall-body {
+            width: 100%; box-sizing: border-box; min-height: 62px; resize: vertical;
+            background: #1c1917; border: 1px solid #3f3a36; border-radius: 8px;
+            color: #f5f5f4; font-family: inherit; font-size: 0.86rem; line-height: 1.6;
+            padding: 8px 10px; outline: none; transition: border-color 0.15s ease;
+        }
+        .wall-body::placeholder, .wall-nick::placeholder { color: #78716c; }
+        .wall-write-bar {
+            display: flex; align-items: center; gap: 8px;
+            font-family: monospace; font-size: 0.72rem; color: #78716c;
+        }
+        .wall-len { flex: 0 0 auto; }
+        .wall-len.near { color: #fbbf24; }
+        .wall-tip { flex: 1 1 auto; text-align: right; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .wall-tip:not(.bad):not(.good) { display: none; }   /* v3.59：没有提示时不占位 */
+        .wall-tip.bad { color: #f87171; }
+        .wall-tip.good { color: #34d399; }
+        .wall-send {
+            flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px;
+            font-size: 0.78rem; font-weight: 700; letter-spacing: 0.3px; color: #fff;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            border: 1px solid rgba(255, 255, 255, 0.22); border-radius: 999px;
+            padding: 6px 15px; cursor: pointer; box-shadow: 0 3px 14px rgba(249, 115, 22, 0.36);
+            transition: transform 0.15s ease, box-shadow 0.15s ease, filter 0.15s ease;
+        }
+        .wall-send:hover { filter: brightness(1.08); transform: translateY(-1px); }
+        .wall-send:active { transform: translateY(0) scale(0.97); }
+        .wall-send:disabled { filter: grayscale(0.4) brightness(0.85); cursor: default; transform: none; }
+
+        .wall-list {
+            display: flex; flex-direction: column; gap: 8px;
+            overflow-y: auto; padding-right: 4px; min-height: 0; flex: 1 1 auto;
+            max-height: 42vh; overscroll-behavior: contain;
+        }
+        .wall-item {
+            background: rgba(255, 255, 255, 0.025); border: 1px solid #3a3531;
+            border-left: 2px solid rgba(249, 115, 22, 0.45); border-radius: 10px;
+            padding: 8px 10px;
+        }
+        .wall-item .w-meta {
+            display: flex; align-items: center; gap: 8px; margin-bottom: 4px;
+            font-family: monospace; font-size: 0.72rem; color: #78716c;
+        }
+        .wall-item .w-nick { color: #fbbf24; font-weight: 700; }
+        .wall-item .w-body {
+            font-size: 0.85rem; line-height: 1.65; color: #e7e5e4;
+            white-space: pre-wrap; word-break: break-word;
+        }
+        .wall-empty {
+            font-family: monospace; font-size: 0.8rem; color: #78716c;
+            text-align: center; padding: 18px 8px; border: 1px dashed #3f3a36; border-radius: 10px;
+        }
+        @media (max-width: 760px) {
+            .wall-list { max-height: 34vh; }
+            .wall-write-bar { flex-wrap: wrap; }
+            .wall-tip { text-align: left; order: 3; flex-basis: 100%; }
+        }
+    
+        /* ===== v3.20：到此一游收成固定按键，并到「共 N 道菜」右边 ===== */
+        .content-header-tools .visit-hang {
+            position: static; top: auto; right: auto; left: auto; bottom: auto;
+            margin: 0 0 0 2px; z-index: auto;
+            display: inline-flex; flex-direction: row; align-items: center;
+            pointer-events: auto; animation: none; transform: none;
+        }
+        .content-header-tools .visit-hang .vh-string,
+        .content-header-tools .visit-hang .vh-ring { display: none; }
+        .content-header-tools .visit-btn.visit-tag {
+            width: auto; height: 30px; padding: 0 11px;
+            flex-direction: row; align-items: center; justify-content: center; gap: 6px;
+            border-radius: 6px;
+        }
+        .content-header-tools .visit-tag::before { display: none; }
+        .content-header-tools .visit-tag:hover { transform: translateY(-1px); filter: brightness(1.05); }
+        .content-header-tools .visit-tag .vt-top { font-size: .92rem; line-height: 1; }
+        .content-header-tools .visit-tag .vt-name {
+            writing-mode: horizontal-tb; text-orientation: mixed;
+            font-size: .78rem; font-weight: 800; letter-spacing: 1px; color: #7d2b18;
+        }
+        .content-header-tools .visit-tag .vt-sub { display: none; }
+    
+        /* ===== v3.21：卡片从「到此一游」按键翻出来、从小到大，另配彩蛋喷射 ===== */
+        .visit-modal { perspective: 1100px; perspective-origin: 50% 46%; }
+        .visit-modal .cal-wrap { will-change: transform, opacity; }
+
+        /* 入场：起点是按键中心（--vdx/--vdy 由 JS 按实测坐标写进来），一面翻一面放大 */
+        .visit-modal .cal-wrap.vpop { animation: calPortal .76s cubic-bezier(.19,.9,.26,1.03) both; }
+        .visit-modal .cal-wrap.vpop .cal-sheet.reveal { animation: none; }  /* 旧的上浮淡入让位，不然两层动画打架 */
+        @keyframes calPortal {
+            0%   { transform: translate(var(--vdx,0px), var(--vdy,0px)) scale(.07) rotate(-16deg) rotateY(64deg); opacity: .16; }
+            40%  { opacity: .92; }
+            66%  { transform: translate(0,0) scale(1.045) rotate(0deg) rotateY(0deg); }
+            82%  { transform: translate(0,0) scale(.992) rotate(0deg); }
+            100% { transform: translate(0,0) scale(1) rotate(0deg) rotateY(0deg); opacity: 1; }
+        }
+        /* 退场：原路缩回按键 */
+        .visit-modal .cal-wrap.vout { animation: calPortalOut .34s cubic-bezier(.4,0,.78,.32) both; }
+        @keyframes calPortalOut {
+            from { transform: none; opacity: 1; }
+            to   { transform: translate(var(--vdx,0px), var(--vdy,0px)) scale(.09) rotate(-12deg) rotateY(52deg); opacity: 0; }
+        }
+
+        /* 彩蛋层：盖在卡片最上面，但不挡点击 */
+        .visit-fx { position: fixed; inset: 0; z-index: 140; pointer-events: none; overflow: hidden; }
+        .fx-bit {
+            position: absolute; display: block; width: 8px; height: 12px; border-radius: 2px;
+            opacity: 0; transform: translate(-50%,-50%);
+            animation: fxFly var(--d, 1.1s) var(--dl, 0s) cubic-bezier(.18,.7,.32,1) forwards;
+        }
+        .fx-bit.round { border-radius: 50%; height: 8px; }
+        @keyframes fxFly {
+            0%   { opacity: 0; transform: translate(-50%,-50%) scale(.35) rotate(0deg); }
+            14%  { opacity: 1; }
+            62%  { opacity: .95; }
+            100% { opacity: 0;
+                   transform: translate(calc(-50% + var(--tx,0px)), calc(-50% + var(--ty,0px) + 200px))
+                             scale(1) rotate(var(--rt,0deg)); }
+        }
+        .fx-ring {
+            position: absolute; width: 40px; height: 40px; border-radius: 50%;
+            border: 2px solid rgba(255,206,140,.85);
+            box-shadow: 0 0 26px rgba(255,196,130,.55);
+            transform: translate(-50%,-50%) scale(.2); opacity: .85;
+            animation: fxRing .78s ease-out forwards;
+        }
+        @keyframes fxRing {
+            0%   { opacity: .9; transform: translate(-50%,-50%) scale(.2); }
+            100% { opacity: 0;  transform: translate(-50%,-50%) scale(3.2); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .visit-modal .cal-wrap.vpop,
+            .visit-modal .cal-wrap.vout { animation: none !important; }
+            .visit-fx { display: none !important; }
+        }
+    
+        /* ===== v3.22：投稿 / 纠错 改成点击弹窗 ===== */
+        /* 原来是个 <a>，现在换成 <button>：把浏览器默认按钮外观抹掉，保持原来那颗胶囊 */
+        .notice-submit {
+            font-family: inherit; cursor: pointer; line-height: 1.2;
+            -webkit-appearance: none; appearance: none;
+        }
+
+        .cx-modal {
+            position: fixed; inset: 0; z-index: 95; padding: 18px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(8,6,4,0.74); backdrop-filter: blur(4px);
+            opacity: 0; pointer-events: none; transition: opacity .22s ease;
+        }
+        .cx-modal.open { opacity: 1; pointer-events: auto; }
+        .cx-card {
+            position: relative; width: min(620px, 94vw); max-height: 86vh; overflow-y: auto;
+            padding: 24px 28px 24px; border-radius: 14px;
+            background: linear-gradient(180deg, #211a14, #16110d);
+            border: 1px solid rgba(255,206,140,0.22);
+            box-shadow: 0 24px 60px rgba(0,0,0,0.7), inset 0 0 0 1px rgba(255,255,255,0.06);
+            color: #f8f1e5; font-family: "Songti SC", "SimSun", "Noto Serif SC", serif;
+            transform: translateY(14px) scale(.97); opacity: 0;
+            transition: transform .26s cubic-bezier(.2,.9,.3,1.05), opacity .22s ease;
+        }
+        .cx-modal.open .cx-card { transform: none; opacity: 1; }
+        .cx-card::-webkit-scrollbar { width: 6px; }
+        .cx-card::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.22); border-radius: 3px; }
+        .cx-close {
+            position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; border-radius: 50%;
+            border: none; cursor: pointer; background: rgba(255,255,255,0.10); color: #e8dcc8;
+            font-size: .86rem; line-height: 1;
+        }
+        .cx-close:hover { background: rgba(255,255,255,0.2); }
+        .cx-title { margin: 0 0 18px; font-size: 1.3rem; font-weight: 900; letter-spacing: 1px; color: #fff3e2; }
+
+        .cx-row {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+            padding: 12px 14px; border-radius: 10px;
+            background: rgba(255,206,140,0.07); border: 1px solid rgba(255,206,140,0.20);
+        }
+        .cx-k { flex: 0 0 auto; font-size: .74rem; letter-spacing: 1px; color: rgba(255,236,214,0.62); }
+        .cx-v { font-size: 1rem; font-weight: 800; color: #ffd9a8; letter-spacing: .5px; }
+        .cx-go {
+            margin-left: auto; display: inline-flex; align-items: center; gap: 5px; text-decoration: none;
+            cursor: pointer; border: 1px solid rgba(249,115,22,0.5); background: rgba(249,115,22,0.16);
+            color: #ffd2a8; font-family: inherit; font-size: .78rem; font-weight: 800;
+            padding: 6px 12px; border-radius: 999px;
+            transition: filter .15s ease, transform .15s ease;
+        }
+        .cx-go:hover { filter: brightness(1.12); transform: translateY(-1px); }
+        .cx-go:active { transform: translateY(0) scale(.98); }
+
+        .cx-note { margin: 14px 2px 2px; font-size: .88rem; line-height: 1.7; letter-spacing: .2px; color: rgba(255,245,232,0.86); }
+        .cx-note b { color: #ffd9a8; }
+        .cx-qq { font-family: monospace; font-size: 1.05rem; letter-spacing: 1.5px; }
+        .cx-hint { margin-left: auto; font-family: monospace; font-size: .7rem; letter-spacing: .5px; color: rgba(255,236,214,0.5); }
+
+        @media (max-width: 520px) {
+            .cx-card { padding: 20px 16px 16px; }
+            .cx-go { margin-left: 0; }
+        }
+    
+        /* ===================== v3.25 · 当前在线人数（Realtime presence，三档配色） ===================== */
+        .on-pill {
+            display: inline-flex; align-items: center; gap: 7px; flex-shrink: 0;
+            height: 30px; padding: 0 12px 0 10px; border-radius: 999px;
+            background: rgba(34, 30, 26, 0.62);
+            border: 1px solid rgba(143, 191, 122, 0.3);
+            color: rgba(245, 239, 232, 0.86);
+            font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+            font-size: .7rem; letter-spacing: 1.2px;
+            white-space: nowrap; user-select: none; cursor: default;
+            transition: border-color .4s ease, background-color .4s ease, box-shadow .4s ease;
+        }
+        .on-pill .on-dot {
+            width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+            background: #8fbf7a;
+            box-shadow: 0 0 0 0 rgba(143, 191, 122, 0.5);
+            animation: onPulse 2.8s ease-out infinite;
+            transition: background-color .4s ease;
+        }
+        .on-pill .on-label { opacity: .74; transition: color .4s ease; }
+        .on-pill .on-num {
+            font-size: .86rem; font-weight: 700; color: #cfe4bf;
+            font-variant-numeric: tabular-nums; min-width: 1.2em; text-align: center;
+            letter-spacing: 0; transition: color .4s ease;
+        }
+        .on-pill .on-unit { opacity: .7; }
+
+        /* ① 人少：常绿，安静，外人一看就知道「很空」 */
+        .on-pill[data-state="low"] {
+            border-color: rgba(143, 191, 122, 0.3);
+            background: rgba(34, 30, 26, 0.62);
+        }
+        .on-pill[data-state="low"] .on-label { color: rgba(206, 228, 188, 0.78); }
+
+        /* ② 健康：炫绿（更亮、带光晕、呼吸更快），表示「有人气且扛得住」 */
+        .on-pill[data-state="ok"] {
+            border-color: rgba(134, 245, 159, 0.55);
+            background: rgba(28, 50, 32, 0.66);
+            box-shadow: 0 0 12px rgba(134, 245, 159, 0.18), inset 0 0 10px rgba(134, 245, 159, 0.08);
+        }
+        .on-pill[data-state="ok"] .on-dot {
+            background: #86f59f;
+            animation: onPulseBright 2.2s ease-out infinite;
+        }
+        .on-pill[data-state="ok"] .on-label { color: rgba(198, 255, 214, 0.9); }
+        .on-pill[data-state="ok"] .on-num { color: #a6ffc0; text-shadow: 0 0 8px rgba(134, 245, 159, 0.45); }
+
+        /* ③ 很热闹：炫红（亮红 + 双层光晕 + 数字发光），是「人气爆棚」不是「警告」 */
+        .on-pill[data-state="hot"] {
+            border-color: rgba(255, 92, 71, 0.72);
+            background: rgba(74, 24, 18, 0.72);
+            box-shadow: 0 0 16px rgba(255, 92, 71, 0.26), inset 0 0 12px rgba(255, 92, 71, 0.12);
+        }
+        .on-pill[data-state="hot"] .on-dot {
+            background: #ff4d3a;
+            animation: onPulseHot 1.6s ease-out infinite;
+        }
+        .on-pill[data-state="hot"] .on-label { color: rgba(255, 196, 184, 0.94); }
+        .on-pill[data-state="hot"] .on-num {
+            color: #ff7a63;
+            text-shadow: 0 0 10px rgba(255, 92, 71, 0.55);
+        }
+
+        /* 连不上：灰，不假装有数 */
+        .on-pill[data-state="unknown"] { border-color: rgba(255, 238, 216, 0.14); box-shadow: none; }
+        .on-pill[data-state="unknown"] .on-dot { background: #7a716a; box-shadow: none; animation: none; }
+        .on-pill[data-state="unknown"] .on-num { color: rgba(245, 239, 232, 0.5); }
+        .on-pill[data-state="unknown"] .on-label { color: rgba(245, 239, 232, 0.5); }
+
+        @keyframes onPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(143, 191, 122, 0.45); }
+            70%  { box-shadow: 0 0 0 7px rgba(143, 191, 122, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(143, 191, 122, 0); }
+        }
+        @keyframes onPulseBright {
+            0%   { box-shadow: 0 0 0 0 rgba(134, 245, 159, 0.62); }
+            70%  { box-shadow: 0 0 0 9px rgba(134, 245, 159, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(134, 245, 159, 0); }
+        }
+        @keyframes onPulseHot {
+            0%   { box-shadow: 0 0 0 0 rgba(255, 92, 71, 0.7); }
+            70%  { box-shadow: 0 0 0 10px rgba(255, 92, 71, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 92, 71, 0); }
+        }
+
+        @media (prefers-reduced-motion: reduce) { .on-pill .on-dot { animation: none; } }
+        @media (max-width: 760px) {
+            .on-pill { height: 26px; padding: 0 9px; gap: 5px; }
+            .on-pill .on-label { display: none; }
+            .on-pill .on-num { font-size: .8rem; }
+        }
+        @media (max-width: 560px) { .on-pill .on-unit { display: none; } }
+
+        /* 靠右：原「音效」按钮的 margin-left:auto 交给胶囊，音效跟在它右边 */
+        .navbar .on-pill { margin-left: auto; }
+        .navbar .sound-toggle { margin-left: 10px; }
+
+    </style>
+
+
+        <style id="lib-v329">
+        /* ===================== v3.29 · 左边缘「检索大纲」+ A–Z 字母轴 =====================
+           贴在视口左边缘的一条常驻栏，和 Steam 游戏库左边那列一个意思：
+           名字 + 小图标，单列长条，自带「只搜名字」的搜索框和名字排序。
+           列表左边再加一条 A–Z 字母轴：划过时指到的字母放大、上下逐渐收小；
+           点选后列表只留这个首字母开头的游戏，选中的字母高亮并弹出放大镜。
+           默认收起，只露一条 30px 的竖签；因为是 fixed，主区位置一处不挪。 */
+
+        .lib-rail {
+            position: fixed; left: 0; top: 92px; bottom: 18px; width: var(--lib-w, 236px);
+            box-sizing: border-box; overflow: hidden;
+            display: flex; justify-content: flex-end; align-items: stretch;
+            background: linear-gradient(180deg, rgba(41, 37, 36, .97), rgba(28, 25, 23, .97));
+            border-right: 1px solid rgba(255, 255, 255, .10);
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 18px 44px rgba(0, 0, 0, .45);
+            z-index: 60;
+            transform: translateX(calc(-100% + 30px));
+            transition: transform .28s cubic-bezier(.2, .8, .2, 1);
+            will-change: transform;
+        }
+        .lib-rail.open { transform: none; }
+
+        /* 贴线态：分界线左侧塞得下 236px 时，右边缘钉在分界线上，宽度 30 ↔ 236 往左长出来。
+           收起时那条竖签正好贴在分界线左边，展开时盖不到主区一个像素。 */
+        .lib-rail.atline {
+            left: auto; transform: none; width: 30px;
+            transition: width .28s cubic-bezier(.2, .8, .2, 1);
+            will-change: width;
+        }
+        .lib-rail.atline.open { width: var(--lib-w, 236px); }
+
+        /* 店长精选左边那条竖向长分界线（左空档不够时由 JS 隐藏） */
+        .lib-divider {
+            position: fixed; top: 92px; bottom: 18px; width: 1px; left: 0;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0) 0,
+                rgba(255, 255, 255, .15) 7%,
+                rgba(255, 255, 255, .15) 93%,
+                rgba(255, 255, 255, 0) 100%);
+            pointer-events: none; z-index: 59;
+        }
+
+        /* 收起态的那枚竖标签：一小块圆角牌，不再是从头到脚的一条 */
+        .lib-tab {
+            position: absolute; right: 0; top: 50%; width: 30px; height: 160px;
+            transform: translateY(-50%);
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(255, 255, 255, .18);
+            border-radius: 10px 0 0 10px;
+            background: linear-gradient(180deg, rgba(41, 37, 36, .97), rgba(28, 25, 23, .97));
+            box-shadow: -6px 0 16px rgba(0, 0, 0, .35);
+            color: var(--text-sub); cursor: pointer;
+            font-family: inherit; font-size: .74rem; letter-spacing: 3px;
+            writing-mode: vertical-rl; text-orientation: upright;
+            transition: color .2s, background-color .2s, border-color .2s;
+        }
+        .lib-tab:hover, .lib-tab:focus-visible {
+            color: var(--primary); background: var(--primary-soft);
+            border-color: rgba(249, 115, 22, .5); outline: none;
+        }
+        /* 收起时面板本身不画底：背景、边框、阴影全撤，只剩那枚标签 */
+        .lib-rail:not(.open) {
+            background: transparent; border-color: transparent; box-shadow: none;
+        }
+        /* 展开时那条竖签会被列表压住，直接让位给「收起」按钮 */
+        .lib-rail.open .lib-tab { opacity: 0; pointer-events: none; }
+        /* 收起时只留一条竖签，里面的内容不许从缝里漏出来 */
+        .lib-rail:not(.open) .lib-inner { visibility: hidden; }
+
+        .lib-inner {
+            flex: 0 0 var(--lib-w, 236px); width: var(--lib-w, 236px); min-width: 0; overflow: hidden;
+            padding: 14px 14px 10px;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+
+        .lib-head { display: flex; align-items: baseline; gap: 8px; }
+        .lib-title {
+            font-size: .86rem; font-weight: 700; letter-spacing: 1px;
+            color: var(--text-main); white-space: nowrap;
+        }
+        .lib-count {
+            margin-left: auto; font-size: .66rem; color: var(--text-sub);
+            font-variant-numeric: tabular-nums; white-space: nowrap;
+        }
+
+        .lib-acts { display: flex; align-items: center; gap: 6px; }
+        .lib-sort, .lib-pin {
+            font-family: inherit; font-size: .68rem; line-height: 1;
+            padding: 5px 8px; border-radius: 5px; cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: transparent; color: var(--text-sub);
+            transition: border-color .2s, color .2s, background-color .2s, transform .12s;
+        }
+        .lib-sort { min-width: 46px; letter-spacing: .5px; }
+        /* 「全部」：清了字母筛选就用它；没选字母时压暗，选了字母才亮起来 */
+        .lib-all {
+            font-family: inherit; font-size: .68rem; line-height: 1;
+            padding: 5px 8px; border-radius: 5px; cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: transparent; color: var(--text-sub); opacity: .55;
+            transition: border-color .2s, color .2s, background-color .2s, opacity .2s;
+        }
+        .lib-all:hover { opacity: 1; }
+        .lib-all.on {
+            opacity: 1; border-color: var(--primary); color: var(--primary);
+            background: var(--primary-soft);
+        }
+        .lib-pin {
+            margin-left: auto; display: flex; align-items: center; justify-content: center;
+            padding: 4px 7px;
+        }
+        .lib-pin svg { width: 13px; height: 13px; display: block; }
+        .lib-sort:hover, .lib-pin:hover {
+            border-color: var(--primary); color: var(--primary);
+            background: var(--primary-soft);
+        }
+        /* 钉住 = 常驻：点画面空白也不再收起 */
+        .lib-pin.on {
+            border-color: var(--primary); color: var(--primary);
+            background: var(--primary-soft);
+        }
+        .lib-pin.on svg { fill: currentColor; }
+        .lib-pin:active { transform: scale(.94); }
+        .lib-rail:not(.open) .lib-pin { pointer-events: none; }
+
+        .lib-search input {
+            width: 100%; box-sizing: border-box;
+            font-family: inherit; font-size: .76rem;
+            padding: 7px 9px; border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(0, 0, 0, .26); color: var(--text-main);
+            outline: none; transition: border-color .2s;
+        }
+        .lib-search input:focus { border-color: var(--primary); }
+        .lib-search input::placeholder { color: var(--text-sub); opacity: .8; }
+
+        /* 列表 + 字母轴 */
+        .lib-main { position: relative; flex: 1 1 auto; min-height: 0; display: flex; gap: 10px; }
+
+        /* 26px 装不下 hover / 选中放大后的框，会右下各被裁一条边。
+           加到 38px 并向面板的左内边距借 12px（净占 26px，跟以前一样），放大的框才整块看得见。 */
+        .lib-az {
+            position: relative; flex: 0 0 38px; width: 38px; margin-left: -12px;
+            padding: 6px 0; overflow-x: hidden; overflow-y: auto;
+            display: flex; flex-direction: column; align-items: center;
+            scrollbar-width: none; z-index: 3;
+        }
+        .lib-az::-webkit-scrollbar { width: 0; height: 0; }
+
+        .lib-az-item {
+            flex: 0 0 auto; width: 26px; height: 20px; padding: 0;
+            font-family: inherit; font-size: .8rem; line-height: 20px;
+            text-align: center; text-transform: uppercase;
+            color: rgba(236, 231, 225, .62); background: transparent;
+            border: 0; border-radius: 4px; cursor: pointer;
+            transform-origin: center center;
+            transition: color .15s, background-color .15s, font-size .15s;
+            will-change: transform;
+        }
+        .lib-az-item:hover, .lib-az-item:focus-visible {
+            color: var(--primary); outline: none;
+        }
+        .lib-az-item.active {
+            color: var(--primary); font-weight: 700; font-size: .94rem;
+            background: var(--primary-soft);
+        }
+        /* 没有游戏的字母压到更淡，一眼能看出哪几格有菜 */
+        .lib-az-item.zero { color: rgba(236, 231, 225, .2); cursor: default; }
+
+        .lib-list {
+            flex: 1 1 auto; min-width: 0; min-height: 0; overflow-y: auto;
+            padding-right: 6px; scrollbar-width: thin;
+            scrollbar-color: rgba(249, 115, 22, .42) transparent;
+        }
+        .lib-list::-webkit-scrollbar { width: 6px; }
+        .lib-list::-webkit-scrollbar-thumb {
+            background: rgba(249, 115, 22, .38); border-radius: 3px;
+        }
+
+        .lib-row {
+            display: flex; align-items: center; gap: 8px; width: 100%;
+            padding: 5px 8px; border: 0; border-radius: 6px;
+            background: transparent; cursor: pointer; text-align: left;
+            font-family: inherit; font-size: .88rem; letter-spacing: .02em;
+            color: var(--text-sub); transition: background-color .16s, color .16s;
+        }
+        .lib-row + .lib-row { margin-top: 1px; }
+        .lib-row img, .lib-row .lib-ph {
+            width: 26px; height: 26px; border-radius: 6px;
+            object-fit: cover; flex: 0 0 26px; background: #2a2a2a;
+        }
+        .lib-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .lib-row:hover, .lib-row:focus-visible {
+            background: var(--primary-soft); color: var(--primary); outline: none;
+        }
+        /* 从大纲点了某一款之后，这一行一直亮着，直到你点别的 */
+        .lib-row.sel {
+            background: rgba(249, 115, 22, .14); color: var(--primary);
+            box-shadow: inset 3px 0 0 var(--primary);
+        }
+
+        .lib-empty {
+            padding: 14px 6px; font-size: .82rem; color: var(--text-sub);
+            font-family: monospace; opacity: .8;
+        }
+
+        /* 点条目定位到卡片时，卡片闪两下再落定 */
+        @keyframes libPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(249, 115, 22, .55); }
+            100% { box-shadow: 0 0 0 14px rgba(249, 115, 22, 0); }
+        }
+        .game-card.lib-pulse { animation: libPulse .7s ease-out 2; border-radius: 4px; }
+        /* 闪完之后常驻的一圈，方便回头还能认出刚才点的是哪张 */
+        .game-card.lib-target {
+            outline: 2px solid rgba(249, 115, 22, .55); outline-offset: 3px;
+            border-radius: 6px;
+        }
+
+        /* 手机上本来就有一整套筛选抽屉，这条栏不掺进去 */
+        @media (max-width: 760px) {
+            .lib-rail { display: none; }
+            .lib-divider { display: none; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .lib-rail { transition: none; }
+            .lib-rail.atline { transition: none; }
+            .lib-divider { display: none; }
+            .lib-az-item { transition: none; }
+            .game-card.lib-pulse { animation: none; }
+        }
+    </style>
+    <style id="mob-v345">
+    /* ==========================================================================
+       v3.45 · 手机端专项（≤760）：店长精选改小名片、游戏区改索引列表、详情弹窗收紧
+       v3.47 · 店长精选的小名片改成横排堆叠（折叠只露竖名字，点开哪张哪张展开）
+       桌面端一行不动：所有规则都在 #mobile-index / @media (max-width:760px) 里
+       ========================================================================== */
+    /* 「类型」这一行只有手机上出现，桌面端名片还是原来那张大海报 */
+    .c-type { display: none; }
+    /* 索引列表容器由 JS 建在 #game-grid 后面，桌面端不显示 */
+    #mobile-index { display: none; }
+
+    @media (max-width: 760px) {
+        /* --- 店长精选：跟桌面一套机制，五张窄卡横着叠一排，点哪张哪张展开（v3.47）
+               v3.54：海报铺满整张卡 —— 折叠那几张也铺，只压暗虚化，不再是一片黑 + 竖排名字 --- */
+        .curation-stage {
+            height: 118px; flex-direction: row; gap: 6px;
+            overflow: hidden; scroll-snap-type: none;
+        }
+        .c-item {
+            position: relative;
+            flex: 0 0 30px; width: 30px; min-height: 0;
+            padding: 0; border-radius: 10px; overflow: hidden;
+            background: #1b1714;
+        }
+        .c-item:hover { transform: none; }
+        .c-shade, .c-rank,
+        .c-dev, .c-intro, .c-meta { display: none !important; }
+        .c-poster { display: block; inset: 0; transform: none; }
+        .c-item:not(.open) .c-poster {
+            filter: blur(2.5px) brightness(.42) saturate(.85);
+            transform: scale(1.18);
+        }
+        .c-item.open .c-poster { filter: none; }
+        /* 虚化海报上再压一层暗，保证竖排名字在任何底色上都读得出来 */
+        .c-item:not(.open)::after {
+            content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+            background: linear-gradient(180deg, rgba(10,8,6,.30), rgba(10,8,6,.52));
+        }
+        /* 折叠那几张：竖排名字直接压在这层虚化的海报上 */
+        .c-vertical {
+            display: flex; position: absolute;
+            left: 0; top: 0; right: 0; bottom: 0;
+            width: auto; height: auto; padding: 0;
+            align-items: center; justify-content: center;
+            writing-mode: vertical-rl; text-orientation: mixed;
+            font-size: .72rem; font-weight: 800; letter-spacing: 0;
+            line-height: 1.1; color: #f7f2ea; opacity: 1;
+            text-shadow: 0 1px 6px rgba(0,0,0,.95);
+            overflow: hidden; white-space: nowrap;
+        }
+        .c-type { display: none; }
+        /* v3.54：折叠态不要 c-body（名字走 c-vertical），展开才让它出场 */
+        .c-body { display: none; opacity: 1; }
+        .c-item.open {
+            flex: 1 1 auto; width: auto;
+            background: #241f1b;
+            box-shadow: inset 0 0 0 1px rgba(249,115,22,.55), 0 6px 16px rgba(0,0,0,.35);
+        }
+        .c-item.open .c-vertical { display: none; }
+        /* 展开：名字 + 类型压在底部一条渐变上，海报整张还看得见 */
+        .c-item.open .c-body {
+            display: block; opacity: 1; transform: none;
+            padding: 10px 12px 9px;
+            background: linear-gradient(180deg,
+                rgba(10,7,5,0) 0%, rgba(10,7,5,.72) 52%, rgba(10,7,5,.95) 100%);
+        }
+        .c-item.open .c-name { font-size: 1.02rem; margin: 0; line-height: 1.25; }
+        .c-item.open .c-type {
+            display: block; margin-top: 2px; font-size: .72rem;
+            color: #c9c4bd; letter-spacing: .3px; line-height: 1.5;
+        }
+
+        /* --- 游戏区：桌面那套窗口卡片在手机上收起来，改用索引列表 --- */
+        #game-grid { display: none; }
+        #mobile-index { display: block; padding-bottom: 86px; }   /* 给右下角那张挂签让位，末行不被它压住 */
+        .mi-letter { display: flex; align-items: baseline; gap: 8px; margin: 16px 2px 6px; }
+        .mi-letter b {
+            font-family: monospace; font-size: 1.02rem; font-weight: 900;
+            color: var(--primary); letter-spacing: 1px;
+        }
+        .mi-letter i { font-style: normal; font-family: monospace; font-size: .68rem; color: #78716c; }
+        .mi-row {
+            display: flex; align-items: center; gap: 10px;
+            padding: 9px 10px; border-radius: 8px;
+            border-bottom: 1px dashed #302b27;
+        }
+        .mi-row:active { background: rgba(249,115,22,.12); }
+        .mi-ico {
+            width: 26px; height: 26px; flex: 0 0 26px;
+            border-radius: 5px; object-fit: cover; background: #1b1714;
+        }
+        .mi-name {
+            flex: 1 1 auto; min-width: 0; font-size: .95rem; color: #e7e5e4;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .mi-type {
+            flex: 0 0 auto; max-width: 42%; font-size: .7rem; color: #a8a29e;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .mi-empty {
+            padding: 40px 10px; text-align: center;
+            color: var(--text-sub); font-family: monospace; font-size: .82rem;
+        }
+
+        /* --- 详情弹窗：别顶满整屏，上下留白、居中，里头自己滚 --- */
+        .modal-mask { padding: 14px 10px; }
+        .modal-card {
+            width: 92vw; max-width: 92vw; height: auto;
+            max-height: 82vh; border-radius: 14px;
+        }
+        .modal-side { flex: 0 0 auto; height: 168px; }
+        .modal-main { padding: 14px 15px 16px; }
+        /* 右下角那个大按钮在窄屏会压住标题，改成正文下面的通栏按钮 */
+        .modal-main .modal-cta {
+            position: static; order: 2; margin: 14px 0 0;
+            justify-content: center;
+        }
+        .modal-main .modal-cta .modal-link {
+            width: 100%; justify-content: center;
+            font-size: .92rem; padding: 11px 20px;
+        }
+        .modal-main .modal-cta .modal-dead { width: 100%; text-align: center; }
+        .modal-inner { order: 1; }
+        .modal-title { font-size: 1.2rem; margin: 0 34px 6px 0; }
+        .modal-intro { font-size: .86rem; line-height: 1.72; margin: 0 0 12px; }
+        .modal-row { font-size: .76rem; gap: 10px; }
+        .modal-row .k { min-width: 62px; }
+        .modal-actions { margin-top: 12px; }
+    }
+    </style>
+    <style id="v348-mob">
+    /* ==========================================================================
+       v3.48 · 手机端收口：顶栏只留 C-72、去掉音效、去掉点击蓝块、摊开卡加横版海报、
+       菜单抽屉头一行放得下四个入口、到此一游整张不滚
+       桌面端不受影响：全部裹在 @media(max-width:760px) 里
+       ========================================================================== */
+    @media (max-width: 760px) {
+        /* --- 顶栏：只留 C-72；副标题和音效开关都收起来 --- */
+        .logo-suffix { display: none; }
+        .logo-sub { display: none; }
+        #sound-toggle { display: none; }
+
+        /* --- 点一下不再闪那块半透明的蓝 --- */
+        html, body, .c-item, .mi-row, button, a, input, textarea {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* --- 店长精选：v3.54 起海报铺满整张卡（这里只管展开那张，折叠的虚化海报在前一块） --- */
+        .curation-stage { height: 118px; }
+        .c-item.open .c-poster {
+            display: block; position: absolute; inset: 0;
+            width: 100%; height: 100%; border-radius: 0;
+            object-fit: cover; object-position: center 32%; transform: none;
+            background: none;
+        }
+        .c-item.open .c-body { height: auto; padding: 9px 12px 10px; }
+
+        /* --- 菜单抽屉：头一行放得下四个入口，正文只在手机上精简 --- */
+        .notice-board { top: 58px; height: auto; max-height: 84vh; padding: 14px 12px; }
+        .notice-head { flex-wrap: nowrap; gap: 8px; margin-bottom: 10px; }
+        .drawer-tabs {
+            display: flex; flex: 1 1 auto; min-width: 0;
+            margin: 0; gap: 6px; overflow-x: auto; scrollbar-width: none;
+        }
+        .drawer-tabs::-webkit-scrollbar { display: none; }
+        .drawer-tabs button {
+            flex: 0 0 auto; white-space: nowrap;
+            font-size: .8rem; padding: 5px 12px;
+        }
+        .notice-tools { flex: 0 0 auto; gap: 6px; }
+        .notice-submit { padding: 5px 9px; }
+        .notice-submit .ns-text { display: none; }
+        .notice-content { overflow-y: auto; }
+        .notice-desc { font-size: .9rem; line-height: 1.65; }
+        .notice-desc.sub { display: none; }        /* 使用说明那几段在手机上先收起，别铺成一屏 */
+        .notice-desc.notice-cta { font-size: .85rem; }
+
+        /* --- 到此一游：卡片收小，内边距/字号/图标一起收，整张不滚 --- */
+        .cal-wrap { padding: 8px; }
+        .fp-back .cal-content { padding: 12px 14px 10px; }
+        .cal-num { font-size: 2.1rem; }
+        .cal-month { font-size: .8rem; }
+        .cal-shop { font-size: .6rem; }
+        .cal-divline { margin: 8px 0; }
+        .cal-fortune { gap: 10px; }
+        .fortune-seal { width: 46px; height: 46px; font-size: .64rem; }
+        .fortune-line { font-size: .82rem; line-height: 1.5; }
+        .yiji-row { font-size: .76rem; }
+        .cal-rec { margin-top: 6px; }
+        .rec-label { font-size: .66rem; }
+        .rec-card { padding: 9px; gap: 10px; }
+        .rec-icon { width: 58px; height: 58px; flex: 0 0 58px; }
+        .rec-name { font-size: .92rem; }
+        .rec-actions { margin-top: 8px; gap: 6px; }
+        .rec-btn { padding: 8px 10px; font-size: .78rem; }
+        .cal-foot { display: none; }
+        /* 左下角那枚字签在手机上会跟「换一道」撞一行，挪到右上角 ✕ 左边，翻面态才出现 */
+        .flip-inner.flipped .cal-flip-back {
+            display: block; left: auto; right: 74px; top: 14px; bottom: auto;
+            font-size: .66rem; padding: 5px 10px; letter-spacing: 1px;
+        }
+        .fortune-line { font-size: .8rem; line-height: 1.45; }
+        .rec-blurb { font-size: .78rem; line-height: 1.45; }
+        .rec-card { padding: 8px; }
+        .rec-icon { width: 54px; height: 54px; flex: 0 0 54px; }
+    }
+    </style>
+<style id="v350-mob">
+/* ==================================================================
+   v3.50 · 手机端顶栏放四个入口 / 厂商卡片收成图标网格（仅 max-width:760px）
+   ================================================================== */
+@media (max-width: 760px) {
+
+    /* ---- 顶栏：四个入口直接摆进来，☰ 菜单撤掉 ---- */
+    .navbar .nav-links {
+        display: flex !important;
+        flex: 1 1 auto; min-width: 0;
+        justify-content: flex-end; align-items: center;
+        gap: 3px; margin-left: 2px;
+    }
+    .navbar .nav-links .active { display: none !important; }
+    .navbar .nav-links .nav-drawer-btn {
+        display: inline-flex; align-items: center;
+        flex: 0 0 auto;
+        font-size: .62rem; letter-spacing: 0; line-height: 1;
+        padding: 4px 5px; border-radius: 999px;
+        border: 1px solid #3f3a36; white-space: nowrap;
+    }
+    .navbar .nav-links .nav-drawer-btn:hover { border-color: var(--primary); }
+    .nav-mobile-menu { display: none !important; }
+    /* 抽屉头里的四个 tab 已经搬到顶栏，抽屉里不再重复一遍 */
+    #drawer-tabs { display: none !important; }
+
+    /* ---- 厂商 / 独立团队：图标网格 ---- */
+    .pub-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; margin-top: 8px; }
+    .pub-card {
+        grid-column: span 2; min-width: 0; overflow: hidden;
+        justify-content: center; gap: 0; padding: 8px 5px;
+    }
+    .pub-card.avatar-card { grid-column: span 1; }
+    .pub-main { display: none !important; }
+    .pub-go { display: none; }
+    .pub-logo { flex: 0 0 auto; width: 100%; height: 28px; border-radius: 6px; }
+    .pub-logo.avatar { width: 34px; height: 34px; border-radius: 50%; }
+    .pub-logo-fallback { flex: 0 0 auto; width: 100%; height: 28px; font-size: .7rem; }
+    /* 这两格的说明写的是「左边 logo 右边名字」「鼠标停住看作品」，手机上名字和悬停都没有了，一起收起 */
+    #panel-publisher .notice-desc, #panel-indie .notice-desc,
+    #panel-publisher .pub-hint, #panel-indie .pub-hint { display: none; }
+}
+</style>
+<style id="v351-nav">
+/* ==================================================================
+   v3.51 · 顶栏简称与投稿入口。桌面上这两件都不出现，原按钮段落没有任何视觉变化。
+   ================================================================== */
+.nl-short { display: none; }
+
+/* v3.62：桌面也把投稿放在顶栏末尾（紧跟「留言墙」），用同一颗 📮，不加边框 */
+.nav-links .nav-submit-entry {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 2px 4px; border: 0; background: transparent;
+    font-size: 1rem; line-height: 1; letter-spacing: 0;
+}
+.nav-links .nav-submit-entry .ns-icon { font-size: 1rem; line-height: 1; }
+
+@media (max-width: 760px) {
+    .navbar .nav-links .nl-full { display: none !important; }
+    .navbar .nav-links .nl-short { display: inline; }
+    .navbar .nav-links .nav-submit-entry {
+        display: inline-flex; align-items: center; justify-content: center;
+        padding: 3px 5px; border: 0; background: transparent;
+        font-size: 1rem; line-height: 1; letter-spacing: 0;
+    }
+    /* 700 以下还有一条老的 `.nav-links span { display:none }`，会把图标一起藏掉，这里按同类优先级压回来 */
+    .navbar .nav-links .nav-submit-entry .ns-icon { display: inline; font-size: 1rem; line-height: 1; }
+}
+</style>
+
+<style id="v363-nav">
+/* ==================================================================
+   v3.63 · 桌面端顶栏：店长留言挪到在线人数左边（厨师帽），📮 补「投稿」二字
+   手机端这两件都不出现，原样保留。
+   ================================================================== */
+.nav-note-desk, .nav-submit-entry .nse-label { display: none; }
+
+@media (min-width: 761px) {
+    /* 「店长留言」从 nav-links 里撤出，只在右边那颗新按钮上出现 */
+    .navbar .nav-links .nav-drawer-btn[data-drawer="note"] { display: none; }
+
+    .nav-note-desk {
+        display: inline-flex; align-items: center; gap: 5px;
+        margin-left: auto; margin-right: 8px; padding: 4px 8px;
+        border: 1px solid transparent; border-radius: 999px;
+        font-size: .88rem; color: var(--text-sub);
+        transition: color .15s, border-color .15s;
+    }
+    .nav-note-desk:hover { color: var(--primary); border-color: var(--primary); }
+    .nav-note-desk .nd-icon { font-size: .95rem; line-height: 1; }
+    .nav-note-desk .nd-text { line-height: 1.2; }
+
+    /* 左边空出来的地方全让给「店长留言」，在线人数不再自己吃 auto（否则两颗按钮平分空白，又飘回中间） */
+    .navbar .on-pill { margin-left: 0; }
+
+    .navbar .nav-links .nav-submit-entry { gap: 5px; padding: 2px 6px; }
+    .nav-submit-entry .nse-label { display: inline; font-size: .88rem; color: var(--text-sub); }
+}
+</style>
+
+<style id="v365-mbar">
+/* ==================================================================
+   v3.65 · 手机端搜索条进内容流（店长精选 与 分区 chips 之间）
+   原位吸顶时它有自己的底色 + 边框，挪到中间会像一条横贯的分隔带，这里收掉。
+   ================================================================== */
+@media (max-width: 760px) {
+    #mobile-bar {
+        /* v3.67：位置挪下来了，吸顶还留着——列表很长，滚下去之后搜索+/筛选 还得能点到。
+           底色用页面底色，静止时看不出是一条带子，吸住的时候才挡住下面的内容。 */
+        position: sticky;
+        top: 52px;
+        z-index: 70;
+        background: var(--bg-body);
+        backdrop-filter: none;
+        border-bottom: 0;
+        box-shadow: none;
+        padding: 2px 0 6px;
+    }
+    #mobile-bar .m-top { padding: 0 10px; }
+    /* 从整条吸顶条缩成内容行里的一行后，框窄了一点，占位文字会被切一半，字号和内边距收一档 */
+    #mobile-bar .m-top .game-search { font-size: .84rem; padding: 9px 28px; }
+    #mobile-bar .m-top .search-icon { left: 9px; font-size: .84rem; }
+    #mobile-bar .m-top .search-clear { right: 6px; }
+}
+</style>
+
+<style id="v368-tour">
+/* ==================================================================
+   v3.68 · 桌面端新手指引（手机端先不出现）
+   四块暗层围出一个洞：只有洞里的那块能点，其余地方挡住。
+   ================================================================== */
+#c72-tour { display: none; }
+@media (min-width: 761px) {
+    #c72-tour { display: block; }
+}
+#c72-tour[hidden] { display: none !important; }
+.tour {
+    position: fixed; inset: 0; z-index: 960;
+    pointer-events: none;   /* 整层不拦点击，只有暗层和卡片拦，洞里的东西才点得到 */
+}
+.tour-dim {
+    pointer-events: auto;   /* 顶栏 z-index 901，这层要在它上面，整条导航一起压暗 */
+    position: absolute;
+    background: rgba(10, 8, 7, 0.66);
+    backdrop-filter: blur(1px);
+    transition: all .22s ease;
+}
+.tour-ring {
+    position: absolute;
+    border: 2px solid var(--primary);
+    border-radius: 14px;
+    box-shadow: 0 0 0 1px rgba(249, 115, 22, .28), 0 0 26px rgba(249, 115, 22, .45);
+    pointer-events: none;
+    transition: all .22s ease;
+    animation: tourPulse 2.2s ease-in-out infinite;
+}
+@keyframes tourPulse {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(249,115,22,.28), 0 0 26px rgba(249,115,22,.45); }
+    50% { box-shadow: 0 0 0 2px rgba(249,115,22,.4), 0 0 34px rgba(249,115,22,.62); }
+}
+.tour-card {
+    position: absolute;
+    width: 356px; max-width: calc(100vw - 32px);
+    background: #292524;
+    border: 1px solid rgba(168, 132, 74, .45);
+    border-radius: 16px;
+    padding: 16px 18px 14px;
+    box-shadow: 0 22px 50px rgba(0, 0, 0, .6);
+    color: var(--text-main);
+    pointer-events: auto;
+    animation: tourIn .24s ease both;
+}
+@keyframes tourIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+.tour-step-no {
+    font-size: .68rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--primary); font-weight: 800;
+}
+.tour-title {
+    margin: 6px 0 8px; font-size: 1.02rem; font-weight: 800; letter-spacing: .5px;
+}
+.tour-text { font-size: .84rem; line-height: 1.75; color: #d6d3d1; }
+.tour-actions {
+    display: flex; align-items: center; gap: 10px; margin-top: 14px;
+}
+.tour-next {
+    border: 0; cursor: pointer; font-family: inherit; font-weight: 800;
+    font-size: .82rem; padding: 9px 18px; border-radius: 999px;
+    background: var(--primary); color: #fff;
+}
+.tour-next:hover { background: #ea580c; }
+.tour-skip {
+    margin-left: auto; background: transparent; border: 0; cursor: pointer;
+    font-family: inherit; font-size: .76rem; color: #a8a29e; text-decoration: underline;
+    text-underline-offset: 3px; padding: 4px 2px;
+}
+.tour-skip:hover { color: var(--primary); }
+.tour-hint[hidden] { display: none !important; }
+.tour-hint {
+    margin-top: 12px; font-size: .76rem; color: var(--primary);
+    display: inline-flex; align-items: center; gap: 6px;
+}
+</style>
+
+<style id="v377-log">
+/* =====================================================================
+   v3.77 · 抽屉里的「日志」页（内容照用户手写的 更新日志.md）
+   ===================================================================== */
+.log-block + .log-block { margin-top: 26px; }
+.log-head {
+    display: flex; align-items: baseline; gap: 10px;
+    padding-bottom: 8px; margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+.log-ver { font-size: 1rem; font-weight: 800; color: var(--primary); letter-spacing: .5px; }
+.log-date { font-size: .74rem; color: var(--text-sub); letter-spacing: .04em; }
+.log-list { list-style: none; margin: 0; padding: 0; }
+.log-list li {
+    position: relative; padding-left: 15px; margin-bottom: 7px;
+    font-size: .85rem; line-height: 1.75; color: #d6d3d1;
+}
+.log-list li::before {
+    content: ""; position: absolute; left: 2px; top: .66em;
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--primary); opacity: .75;
+}
+.log-block .notice-desc + .log-list { margin-top: 10px; }
+.log-jump-wrap { margin-top: 14px; }
+.log-jump {
+    background: transparent; border: 0; padding: 0; cursor: var(--cursor-spatula);
+    font-family: inherit; font-size: .85rem; color: var(--primary);
+    text-decoration: underline; text-underline-offset: 3px;
+}
+.log-jump:hover { color: #fb923c; }
+</style>
 </head>
 <body>
+<!-- v3.68：新手指引（四块暗层 + 一块高亮圈 + 一张说明卡） -->
+<div id="c72-tour" hidden>
+    <div class="tour" id="tour-root">
+        <div class="tour-dim" id="tour-top"></div>
+        <div class="tour-dim" id="tour-bottom"></div>
+        <div class="tour-dim" id="tour-left"></div>
+        <div class="tour-dim" id="tour-right"></div>
+        <div class="tour-ring" id="tour-ring"></div>
+        <div class="tour-card" id="tour-card">
+            <div class="tour-step-no" id="tour-no"></div>
+            <div class="tour-title" id="tour-title"></div>
+            <div class="tour-text" id="tour-text"></div>
+            <div class="tour-hint" id="tour-hint" hidden>点「到此一游」抽一张，抽完关掉日历就继续</div>
+            <div class="tour-actions">
+                <button class="tour-next" id="tour-next" type="button">知道了</button>
+                <button class="tour-skip" id="tour-skip" type="button">跳过指引</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+/* ==================================================================
+   v3.68 · 桌面端新手指引
+   触发时机：点掉「初次造访须知」之后；没弹欢迎窗（老访客）就直接开始。
+   走完 / 跳过 都写 localStorage 的 c72_tour_1，之后不再出现。
+   ================================================================== */
+(function () {
+    var KEY = 'c72_tour_1';
+    var KEY_DONE = '1';
+    var mq = window.matchMedia('(min-width: 761px)');
+    var root = document.getElementById('c72-tour');
+    if (!root) return;
+
+    function done() { try { localStorage.setItem(KEY, KEY_DONE); } catch (e) {} }
+    function finished() { try { return localStorage.getItem(KEY) === KEY_DONE; } catch (e) { return false; } }
+
+    var elNo = document.getElementById('tour-no');
+    var elTitle = document.getElementById('tour-title');
+    var elText = document.getElementById('tour-text');
+    var elHint = document.getElementById('tour-hint');
+    var elNext = document.getElementById('tour-next');
+    var elSkip = document.getElementById('tour-skip');
+    var elCard = document.getElementById('tour-card');
+    var elRing = document.getElementById('tour-ring');
+    var dimTop = document.getElementById('tour-top');
+    var dimBottom = document.getElementById('tour-bottom');
+    var dimLeft = document.getElementById('tour-left');
+    var dimRight = document.getElementById('tour-right');
+
+    var i = -1;
+    var on = false;
+    var watchVisit = null;
+
+    function targetOf(sel) {
+        if (!sel) return null;
+        if (sel === '.game-card') {
+            var g = document.getElementById('game-grid');
+            return g ? g.querySelector('.game-card') : null;
+        }
+        return document.querySelector(sel);
+    }
+
+    function stepTarget(s) {
+        var el = targetOf(s.t);
+        if (!el) return null;
+        var r = el.getBoundingClientRect();
+        if (r.width < 2 || r.height < 2) return null;
+        return r;
+    }
+
+    /* 把四块暗层拼成一个洞；没有目标就整屏压暗、卡片居中 */
+    function layout() {
+        var s = steps[i];
+        var r = on ? stepTarget(s) : null;
+        var pad = 8;
+        var vw = document.documentElement.clientWidth;
+        var vh = document.documentElement.clientHeight;
+
+        if (!r) {
+            dimTop.style.cssText = 'left:0;top:0;width:' + vw + 'px;height:' + vh + 'px';
+            dimBottom.style.cssText = 'left:0;top:' + vh + 'px;width:0;height:0';
+            dimLeft.style.cssText = 'left:0;top:0;width:0;height:0';
+            dimRight.style.cssText = 'left:' + vw + 'px;top:0;width:0;height:0';
+            elRing.style.display = 'none';
+            elCard.style.left = Math.max(16, (vw - 356) / 2) + 'px';
+            elCard.style.top = Math.max(24, (vh - elCard.offsetHeight) / 2) + 'px';
+            return;
+        }
+        elRing.style.display = 'block';
+
+        var x0 = Math.max(0, r.left - pad);
+        var y0 = Math.max(0, r.top - pad);
+        var x1 = Math.min(vw, r.right + pad);
+        var y1 = Math.min(vh, r.bottom + pad);
+
+        dimTop.style.cssText = 'left:0;top:0;width:' + vw + 'px;height:' + y0 + 'px';
+        dimBottom.style.cssText = 'left:0;top:' + y1 + 'px;width:' + vw + 'px;height:' + Math.max(0, vh - y1) + 'px';
+        dimLeft.style.cssText = 'left:0;top:' + y0 + 'px;width:' + x0 + 'px;height:' + (y1 - y0) + 'px';
+        dimRight.style.cssText = 'left:' + x1 + 'px;top:' + y0 + 'px;width:' + Math.max(0, vw - x1) + 'px;height:' + (y1 - y0) + 'px';
+
+        elRing.style.cssText = 'display:block;left:' + x0 + 'px;top:' + y0 + 'px;width:' + (x1 - x0) + 'px;height:' + (y1 - y0) + 'px';
+
+        /* 卡片：贴左边缘的目标（检索大纲竖签）放右侧居中；
+           其余目标优先放下方，放不下放上方；左右夹在视口里 */
+        var cardW = 356, cardH = elCard.offsetHeight || 150;
+        var left, top;
+        if (x0 < 40) {
+            left = x1 + 16;
+            top = Math.max(12, Math.min(vh - cardH - 12, (y0 + y1) / 2 - cardH / 2));
+        } else {
+            top = y1 + 14;
+            if (top + cardH > vh - 12) top = Math.max(12, y0 - cardH - 14);
+            left = x0;
+            if (left + cardW > vw - 12) left = Math.max(12, vw - cardW - 12);
+        }
+        elCard.style.left = left + 'px';
+        elCard.style.top = top + 'px';
+    }
+
+    var steps = [
+        {
+            t: '.nav-note-desk',
+            title: '店长留言在这儿',
+            text: '刚刚的说明已经收进这里了，随时可以打开查看。'
+        },
+        {
+            t: '#visit-btn',
+            title: '每天都可以来这里抽抽盲盒',
+            text: '「到此一游」每天能抽一款推荐游戏，对结果不满意可以重抽。'
+        },
+        {
+            t: '#lib-tab',
+            title: '快速检索大纲',
+            text: '点击展开大纲，全站游戏一目了然，点击名字可快速跳转。'
+        },
+        {
+            t: '.lib-pin',
+            expand: true,
+            title: '固定展开图钉',
+            text: '点击图标，获得固定大纲窗口；再点一下取消。'
+        }
+    ];
+
+    function applyStep() {
+        var s = steps[i];
+        var last = i === steps.length - 1;
+        elNo.textContent = (i + 1) + ' / ' + steps.length;
+        elTitle.textContent = s.title;
+        elText.textContent = s.text;
+        elHint.hidden = !s.wait;
+        elNext.textContent = last ? '知道了' : '下一步';
+        elSkip.style.display = last ? 'none' : '';
+        layout();
+        if (s.expand) {
+            var railEl = document.querySelector('.lib-rail');
+            var tabEl = document.getElementById('lib-tab');
+            if (railEl && tabEl && !railEl.classList.contains('open')) {
+                tabEl.click();
+                setTimeout(layout, 460);
+                setTimeout(layout, 900);
+            }
+        }
+    }
+
+    function clearVisitWatch() {
+        if (watchVisit) { watchVisit.disconnect(); watchVisit = null; }
+    }
+
+    function next() {
+        if (i >= steps.length - 1) { stop(); return; }
+        i++;
+        applyStep();
+        if (steps[i].wait === 'visit') waitForVisit();
+    }
+
+    /* 第 2 步：等他真的抽完卡再把指引收起来，日历关掉后自动往下走 */
+    function waitForVisit() {
+        var vm = document.getElementById('visit-modal');
+        if (!vm || !window.MutationObserver) return;
+        var opened = false;
+        clearVisitWatch();
+        watchVisit = new MutationObserver(function () {
+            var open = vm.classList.contains('open');
+            if (open) { opened = true; hidePanel(); return; }
+            if (opened) { clearVisitWatch(); showPanel(); setTimeout(next, 260); }
+        });
+        watchVisit.observe(vm, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    function hidePanel() { root.style.visibility = 'hidden'; }
+    function showPanel() { root.style.visibility = ''; }
+
+    function start() {
+        if (on || finished() || !mq.matches) return;
+        i = 0;
+        on = true;
+        root.hidden = false;
+        applyStep();
+        if (steps[0].wait === 'visit') waitForVisit();
+    }
+
+    function stop() {
+        on = false;
+        clearVisitWatch();
+        root.hidden = true;
+        done();
+    }
+
+    elNext.addEventListener('click', function () { next(); });
+    elSkip.addEventListener('click', function () { stop(); });
+    document.addEventListener('keydown', function (e) {
+        if (!on) return;
+        if (e.key === 'Escape') { e.stopPropagation(); stop(); }
+    }, true);
+
+    window.addEventListener('resize', function () { if (on) layout(); });
+    window.addEventListener('scroll', function () { if (on) layout(); }, { passive: true });
+
+    /* 欢迎窗关掉之后才开始；没弹欢迎窗（老访客 / 已设过不再提示）就直接开始 */
+    /* v3.69：原来那条 2.6s 的兜底会把「正在等欢迎窗关掉」的轮询一起清掉，
+       结果点了「知道了，开饭」之后指引根本不起来。改成：见过了就等到它关，
+       没见过（老访客 / 设过不再提示）满 2.6s 才直接开始。 */
+    function whenWelcomeDone(cb) {
+        var mask = document.getElementById('welcome-mask');
+        if (!mask) { cb(); return; }
+        var seen = false;
+        var waited = 0;
+        var iv = setInterval(function () {
+            waited += 200;
+            if (mask.classList.contains('show')) { seen = true; return; }
+            if (seen || waited >= 2600) {
+                clearInterval(iv);
+                var delay = seen ? 420 : 0;
+                setTimeout(cb, delay);
+            }
+        }, 200);
+    }
+
+    function boot() {
+        if (!mq.matches) return;
+        if (finished()) return;
+        whenWelcomeDone(function () {
+            if (finished() || !mq.matches) return;
+            start();
+        });
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+    else setTimeout(boot, 0);
+})();
+</script>
+
+<div id="c72-barrage" aria-hidden="true"></div>
+<script>
+/* v3.25 · 当前在线人数：Supabase Realtime presence（公共 channel，页面自己数连接）
+   —— 不依赖 supabase-js，裸 WebSocket 走 Phoenix 协议；连不上就静默显示「—」，不影响页面其它功能 */
+(function () {
+    var HOST = "wss://cqktksfrigqsuehuyxix.supabase.co/realtime/v1/websocket";
+    var KEY = "sb_publishable_vTKF3hwa-K5NINZUlyqsxw_12ApqTOb";
+    var TOPIC = "realtime:c72-online";
+    var JOIN_REF = "1";
+
+    var el = null, numEl = null;
+    var sock = null, joined = false, ref = 1;
+    var hbt = null, retryT = null, retry = 0;
+    var members = {};                 // presence key -> metas，自己也在里面
+    var mine = "v" + Math.random().toString(36).slice(2, 10);
+    var dead = false;
+    var joinedAt = 0;
+
+    function count() { return Object.keys(members).length; }
+
+    // 分三档：人少=绿（宽松）、适中=炫绿（健康）、破百=炫红（很热闹）
+    // 阈值只在这里改：LOW_MAX 是「还是绿的」上限，OK_MAX 是「还没破百」的上限
+    var LOW_MAX = 5, OK_MAX = 100;
+    function tierOf(n) {
+        if (n <= LOW_MAX) return "low";
+        if (n <= OK_MAX) return "ok";
+        return "hot";
+    }
+
+    function paint(state) {
+        if (!el) return;
+        var n = count();
+        if (state === "unknown" || n < 1) {
+            el.dataset.state = "unknown";
+            numEl.textContent = "—";
+            return;
+        }
+        el.dataset.state = tierOf(n);
+        numEl.textContent = String(n);
+    }
+
+    function send(ev, pl, withJoinRef) {
+        if (!sock || sock.readyState !== 1) return;
+        var msg = { topic: TOPIC, event: ev, payload: pl, ref: String(++ref) };
+        if (withJoinRef) msg.join_ref = JOIN_REF;
+        try { sock.send(JSON.stringify(msg)); } catch (e) {}
+    }
+
+    function teardown() {
+        if (hbt) { clearInterval(hbt); hbt = null; }
+        if (sock) { try { sock.onclose = sock.onerror = sock.onmessage = null; sock.close(); } catch (e) {} sock = null; }
+        joined = false;
+    }
+
+    function scheduleRetry() {
+        if (dead || retryT) return;
+        var wait = Math.min(30000, 3000 * Math.pow(2, retry));
+        retry++;
+        retryT = setTimeout(function () { retryT = null; connect(); }, wait);
+    }
+
+    function connect() {
+        if (dead) return;
+        teardown();
+        members = {};
+        paint("unknown");
+        var url = HOST + "?apikey=" + encodeURIComponent(KEY) + "&vsn=1.0.0";
+        try { sock = new WebSocket(url); } catch (e) { scheduleRetry(); return; }
+        var self = sock;
+
+        self.onopen = function () {
+            if (self !== sock) return;
+            send("phx_join", {
+                config: {
+                    broadcast: { ack: false, self: false },
+                    presence: { key: mine, enabled: true },
+                    postgres_changes: [],
+                    private: false
+                }
+            }, true);
+            // 加入后立刻把自己广播出去，别人也能数到这台设备
+            send("presence", { type: "presence", event: "track", payload: { at: Date.now() } }, true);
+            if (hbt) clearInterval(hbt);
+            hbt = setInterval(function () { send("heartbeat", {}, false); }, 25000);
+        };
+
+        self.onmessage = function (e) {
+            if (self !== sock) return;
+            var m;
+            try { m = JSON.parse(String(e.data)); } catch (err) { return; }
+            if (m.event === "phx_reply") {
+                var st = m.payload && m.payload.status;
+                if (st === "ok") { joined = true; joinedAt = Date.now(); retry = 0; }
+                else if (m.ref === "2") { teardown(); scheduleRetry(); }
+                return;
+            }
+            if (m.event === "presence_state") {
+                members = {};
+                var p = m.payload || {};
+                for (var k in p) if (Object.prototype.hasOwnProperty.call(p, k)) members[k] = p[k];
+                if (joined) paint("live");
+                return;
+            }
+            if (m.event === "presence_diff") {
+                var d = m.payload || {};
+                var j = d.joins || {}, l = d.leaves || {};
+                for (var a in j) if (Object.prototype.hasOwnProperty.call(j, a)) members[a] = j[a];
+                for (var b in l) if (Object.prototype.hasOwnProperty.call(l, b)) delete members[b];
+                if (joined) paint("live");
+                return;
+            }
+        };
+
+        self.onerror = function () { if (self === sock) paint("unknown"); };
+
+        self.onclose = function () {
+            if (self !== sock) return;
+            members = {};
+            paint("unknown");
+            teardown();
+            if (!dead) scheduleRetry();
+        };
+    }
+
+    function boot() {
+        el = document.getElementById("c72-on");
+        numEl = document.getElementById("c72-on-num");
+        if (!el || !numEl) return;
+        paint("unknown");
+        // 后台标签页里浏览器会掐心跳，回到前台时补一次重连
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState !== "visible") return;
+            if (!sock || sock.readyState > 1) { retry = 0; connect(); }
+        });
+        connect();
+    }
+
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", boot);
+    } else {
+        boot();
+    }
+
+    window.addEventListener("pagehide", function () {
+        dead = true;
+        if (retryT) { clearTimeout(retryT); retryT = null; }
+        try { send("phx_leave", {}, true); } catch (e) {}
+        teardown();
+    });
+})();
+</script>
 
     <!-- 初次造访须知：一次访问只弹一次；点「以后不再提示」就彻底不再出现 -->
     <div class="welcome-mask" id="welcome-mask" aria-hidden="true">
@@ -1637,7 +3730,7 @@
         <a href="#" class="logo-area">
             <span class="burger-icon">🍔</span>
             <div class="logo-text">
-                <span class="logo-title">C-72 自助馆</span>
+                <span class="logo-title">C-72<span class="logo-suffix"> 自助馆</span></span>
                 <span class="logo-sub">c-72 game buffet</span>
             </div>
             <div class="open-sign">营业中</div>
@@ -1645,22 +3738,48 @@
         <div class="nav-links">
             <span class="active">出餐窗口</span>
             <button class="nav-drawer-btn" type="button" data-drawer="note">店长留言</button>
-            <button class="nav-drawer-btn" type="button" data-drawer="publisher">头部厂商</button>
-            <button class="nav-drawer-btn" type="button" data-drawer="indie">独立团队</button>
+            <button class="nav-drawer-btn" type="button" data-drawer="publisher"><span class="nl-full">头部厂商</span><span class="nl-short">厂商</span></button>
+            <button class="nav-drawer-btn" type="button" data-drawer="indie"><span class="nl-full">独立团队</span><span class="nl-short">个人</span></button>
+                <button class="nav-drawer-btn" type="button" data-drawer="wall"><span class="nl-full">留言墙</span><span class="nl-short">墙</span></button>
+            <button class="nav-drawer-btn nav-submit-entry" type="button" id="nav-submit-entry" aria-label="投稿 / 纠错" title="投稿 / 纠错"><span class="ns-icon" aria-hidden="true">📮</span><span class="nse-label">投稿</span></button>
         </div>
+        <!-- v3.16：手机端的菜单入口（桌面隐藏）。点它等于点「店长留言」，抽屉里自带三栏切换 -->
+        <button class="nav-mobile-menu" id="nav-mobile-menu" type="button" aria-label="打开菜单">☰ 菜单</button>
         <div class="fortune-ribbon" id="fortune-ribbon" role="button" tabindex="0"></div>
+        <!-- v3.63：桌面端「店长留言」放在在线人数左边（手机端隐藏，仍用 nav-links 里那个） -->
+        <button class="nav-drawer-btn nav-note-desk" type="button" data-drawer="note" aria-label="店长留言" title="店长留言：使用说明与本店自创词条">
+            <span class="nd-icon" aria-hidden="true">👨‍🍳</span><span class="nd-text">店长留言</span>
+        </button>
+        <div class="on-pill" id="c72-on" data-state="unknown" aria-live="off"
+             title="当前正在浏览本站的人数：≤5 宽松 / 6–100 健康 / &gt;100 很热闹（实时通道需能连上 supabase.co）">
+            <i class="on-dot" aria-hidden="true"></i><span class="on-label">当前在线人数</span><span class="on-num" id="c72-on-num">—</span><span class="on-unit">人</span>
+        </div>
         <button class="sound-toggle" id="sound-toggle" type="button" title="点按音效开关">🔊 音效 开</button>
     </nav>
 
-    <!-- 到此一游吊牌：挂在页面右侧上方，吸顶搜索条右边那一块空位 -->
-    <div class="visit-hang" id="visit-hang">
-        <span class="vh-string" aria-hidden="true"></span>
-        <span class="vh-ring" aria-hidden="true"></span>
-        <button class="visit-btn visit-tag" id="visit-btn" type="button" title="每日一签：抽今日运势，随机推一道菜">
-            <span class="vt-top" aria-hidden="true">🎋</span>
-            <span class="vt-name">到此一游</span>
-            <span class="vt-sub">每日一签</span>
-        </button>
+    <!-- v3.17：移动端吸顶条（搜索 + 筛选）+ 分区 chips -->
+    <div id="mobile-bar">
+        <div class="m-top">
+            <button class="m-filter-btn" id="m-filter-btn" type="button">
+                筛选<span class="n" hidden>0</span>
+            </button>
+        </div>
+    </div>
+    <div id="quick-cats"></div>
+
+    <!-- v3.17：筛选底部抽屉。里面装的是原来的 #sidebar-container -->
+    <div id="filter-mask"></div>
+    <div id="filter-sheet" role="dialog" aria-modal="true" aria-label="筛选" aria-hidden="true">
+        <div class="fm-grip"></div>
+        <div class="fm-head">
+            <span class="fm-title">筛选</span>
+            <button class="fm-reset" type="button">清空</button>
+            <button class="fm-close" type="button" aria-label="收起筛选">✕</button>
+        </div>
+        <div class="fm-body"></div>
+        <div class="fm-foot">
+            <button class="fm-apply" type="button">看 93 道菜</button>
+        </div>
     </div>
 
     <div class="notice-mask" id="notice-mask"></div>
@@ -1675,11 +3794,13 @@
                     <button type="button" data-drawer="note">留言</button>
                     <button type="button" data-drawer="publisher">厂商</button>
                     <button type="button" data-drawer="indie">团队</button>
+                    <button type="button" data-drawer="wall">留言墙</button>
+                    <button type="button" data-drawer="log">日志</button>
                 </div>
                 <div class="notice-tools">
-                    <a class="notice-submit" href="https://xhslink.cn/o/7O2QLG3kPHm" target="_blank" rel="noopener noreferrer" title="跳到店长的小红书，私信投稿 / 报错">
-                        <span class="ns-icon">📮</span>投稿 / 纠错
-                    </a>
+                    <button class="notice-submit" id="notice-submit" type="button" title="投稿 / 纠错：小红书主页、小红书群、QQ 群">
+                        <span class="ns-icon">📮</span><span class="ns-text">投稿 / 纠错</span>
+                    </button>
                     <button class="notice-close" id="notice-close" type="button" aria-label="关闭">✕</button>
                 </div>
             </div>
@@ -1701,7 +3822,7 @@
                     取餐区：搜索框菜名、厂商、玩法；右上角有音效开关。
                 </div>
                 <div class="notice-desc sub">
-                    只有移动端的国内二游排在页面最底下那排「只出手游窗口」，规则见底下。
+                    只有移动端的国内二游排在页面最底下那排「手游窗口」。
                 </div>
                 <div class="notice-desc sub">
                     趣味玩法到此一游，翻一页获取你的每日专属推荐游戏。
@@ -1711,6 +3832,9 @@
                 </div>
                 <div class="notice-welcome">
                     祝大家用餐愉快！
+                </div>
+                <div class="log-jump-wrap">
+                    <button class="log-jump" type="button" data-drawer="log">站内更新日志 →</button>
                 </div>
 </div>
 
@@ -1730,6 +3854,74 @@
                 <div class="pub-grid" id="indie-grid"></div>
             </div>
 
+                    <div class="notice-panel" id="panel-log" hidden>
+                <div class="log-block">
+                    <div class="log-head">
+                        <span class="log-ver">V1.1</span>
+                        <span class="log-date">2026-11-11</span>
+                    </div>
+                    <ul class="log-list">
+                        <li>新增留言墙功能，可匿名留言。留言会以弹幕形式在顶部飘过。</li>
+                        <li>新增站内更新日志。</li>
+                        <li>新增移动端适配：采用精简的大纲视图，尽量保留了大部分功能。</li>
+                        <li>优化「到此一游」UI 布局。</li>
+                        <li>优化「到此一游」卡片弹出展现效果。</li>
+                        <li>新增投稿方式：上一版仅支持小红书投稿，现已补上交流群号。</li>
+                        <li>新增实时在线人数显示（可能会有延迟）。</li>
+                        <li>新增检索大纲：快速查阅站内收录所有游戏，按字母顺序检索。</li>
+                        <li>优化搜索框内文案表达。</li>
+                        <li>新增初次入站指引。</li>
+                    </ul>
+                </div>
+
+                <div class="log-block">
+                    <div class="log-head">
+                        <span class="log-ver">V1.0</span>
+                        <span class="log-date">2026-11-10</span>
+                    </div>
+                    <div class="notice-desc">
+                        C-72 自助馆是一个国产二游的集成网站，可快捷访问游戏的官网地址或者 steam 的商品界面。站内以收录国产游戏为主，其内容包含二游，独游以及其他国产游戏，游戏内容经站主筛选，保留的基本上都是制作精良，评价较高（当然有夹带私货，部分独游是站主个人喜好收录），或者市场主流的游戏。
+                    </div>
+                    <ul class="log-list">
+                        <li>站内收录一共 93 款国产游戏，其中已上线二游 26 款，已上线独游 26 款，未上线二游 6 款，未上线独游 16 款。</li>
+                        <li>顶部导航：可查看店长留言（站内说明），游戏厂商和独立团队的信息，点击可快捷跳转官网。</li>
+                        <li>首次访问提示：第一次进站的说明弹窗。</li>
+                        <li>筛选：左边按分区、状态、上线时间、玩法分类筛选，默认选中全部；后三种可叠加筛选，可一键清空筛选。</li>
+                        <li>搜索与排序：可根据游戏名字、厂商、玩法搜索；排序分为「上线时间」和「上线时间（含定档）」两种，默认按照上线时间排序。</li>
+                        <li>取餐口：游戏分区，每款游戏是一扇厨房窗口，鼠标悬停点击「打包带走」，可查看简单的介绍及访问官网。</li>
+                        <li>窗口角标：暂未上线、黄花菜对应已停服。</li>
+                        <li>小票：连接在厨房窗口下面的一张小票，可快捷查看厂商、上线时间、平台、状态和标签；票面按分区换色，二游橙、非二游蓝、独游绿。</li>
+                        <li>标签：可试玩、陪伴服、LGBT（les、gay 另挂小签）、像素、3A 等。</li>
+                        <li>上线时间颜色：半年内是炫彩，半年到一年是炫金，十年以上是暗金，其他没有做颜色区分。</li>
+                        <li>详情弹窗：游戏信息简单介绍，停服的游戏一般会写明停服原因。</li>
+                        <li>店长精选：四个板块每个推荐五款游戏，排名不分先后，海报会自动轮播。</li>
+                        <li>店长留言：网站说明，右上角有「投稿 / 纠错」入口。</li>
+                        <li>厂商与团队：鼠标悬停可查看该厂商旗下的游戏，点击卡片跳转官网。</li>
+                        <li>只出手游窗口：页面底部展示，不做详细上架，分在营和已停服；黄色的名字可以点击访问官网。</li>
+                        <li>每日一签：右侧吊牌「到此一游」，点击可抽取每日随机推荐游戏，展示状态是竖版的海报，点击卡片可翻转到正面查看信息，对结果不满意可以重抽。抽完后页面上保留一条小签。</li>
+                        <li>鼠标指针：站内光标是一把锅铲。</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="notice-panel" id="panel-wall" hidden>
+            <div class="notice-desc tip">这里可以留下你的痕迹，欢迎友好交流。</div>
+            <div class="wall-top">
+                <span class="wall-dot" id="wall-dot"></span>
+                <span class="wall-count" id="wall-count">连接中…</span>
+                <button class="wall-refresh" id="wall-refresh" type="button">刷新</button>
+            </div>
+            <div class="wall-write">
+                <input class="wall-nick" id="wall-nick" type="text" maxlength="12" placeholder="昵称（留空 = 匿名食客）" autocomplete="off" spellcheck="false">
+                <textarea class="wall-body" id="wall-body" maxlength="200" placeholder="随便说点什么..." spellcheck="false"></textarea>
+                <div class="wall-write-bar">
+                    <span class="wall-len" id="wall-len">0/200</span>
+                    <span class="wall-tip" id="wall-tip"></span>
+                    <button class="wall-send" id="wall-send" type="button">贴到墙上</button>
+                </div>
+            </div>
+            <div class="wall-list" id="wall-list"></div>
+        </div>
             <!-- 厂商作品浮层：绝对定位挂在留言板内部，不参与排版 -->
             <div class="pub-flyout" id="pub-flyout"></div>
         </div>
@@ -1758,7 +3950,7 @@
                 <h2 id="section-title">取餐区</h2>
                 <div class="search-wrap" id="search-wrap">
                     <span class="search-icon">🔍</span>
-                    <input class="game-search" id="game-search" type="text" placeholder="搜菜名 / 厂商 / 玩法" autocomplete="off" spellcheck="false">
+                    <input class="game-search" id="game-search" type="text" placeholder="输入游戏名称 / 玩法类型 / 厂商搜索" autocomplete="off" spellcheck="false">
                     <button class="search-clear" id="search-clear" type="button" aria-label="清空搜索">✕</button>
                 </div>
                 <div class="content-header-tools">
@@ -1770,6 +3962,16 @@
                         </select>
                     </div>
                     <span class="band-count" id="game-count"></span>
+                    <!-- 到此一游按键：跟「共 N 道菜」并排，手机上由 JS 挪回右下角 -->
+                    <div class="visit-hang" id="visit-hang">
+                        <span class="vh-string" aria-hidden="true"></span>
+                        <span class="vh-ring" aria-hidden="true"></span>
+                        <button class="visit-btn visit-tag" id="visit-btn" type="button" title="每日一签：抽今日运势，随机推一道菜">
+                            <span class="vt-top" aria-hidden="true">🎋</span>
+                            <span class="vt-name">到此一游</span>
+                            <span class="vt-sub">每日一签</span>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -1780,8 +3982,8 @@
     <!-- 纯手游窗口：没有官方 PC 客户端、只在手机上的国内二游，只列名字，鼠标停上去看图标和口味 -->
     <section class="mobile-strip">
         <div>
-            <span class="mobile-strip-title">// 只出手游窗口</span>
-            <span class="mobile-strip-sub">PC 上玩不到的国内二游（纯手游）。本店只收录电脑上能跑的菜，这一排只做排列、不做柜台——鼠标停在名字上能看图标和口味标签。</span>
+            <span class="mobile-strip-title">// 手游窗口</span>
+            <span class="mobile-strip-sub">国产二次元手游（无pc客户端）只做排列不做单独展示，黄色字样点击可访问官网。</span>
         </div>
         <div class="mobile-group">
             <span class="mobile-group-label">在营</span>
@@ -1791,7 +3993,6 @@
             <span class="mobile-group-label">已停服</span>
             <div class="mobile-chips" id="mobile-dead"></div>
         </div>
-        <div class="mobile-hint">※ <strong>黄色带 ↗ 的</strong>有官网，点一下能跳过去；其余名字点了会跳一下——<b>不要点了，问就是找不到官网</b>。</div>
     </section>
 
     <div class="mobile-tip" id="mobile-tip"></div>
@@ -1800,7 +4001,35 @@
     <div class="modal-mask" id="game-modal" role="dialog" aria-modal="true" aria-hidden="true"></div>
 
     <!-- 到此一游：撕一页老日历，今日运势 + 随机推一道菜 -->
+    <div class="cx-modal" id="contact-modal" role="dialog" aria-modal="true" aria-hidden="true" aria-label="投稿与纠错">
+        <div class="cx-card">
+            <button class="cx-close" id="contact-close" type="button" aria-label="关闭">✕</button>
+            <div class="cx-title">投稿</div>
+
+            <div class="cx-row">
+                <span class="cx-k">小红书</span>
+                <span class="cx-v">zz.渣了个渣</span>
+                <a class="cx-go" href="https://www.xiaohongshu.com/user/profile/63f58c39000000001001f6e5" target="_blank" rel="noopener noreferrer">打开主页 ↗</a>
+            </div>
+
+            <div class="cx-row" style="margin-top:10px">
+                <span class="cx-k">小红书群</span>
+                <span class="cx-v">c-72 食客交流会</span>
+                <span class="cx-hint">主页里申请加入</span>
+            </div>
+
+            <div class="cx-row" style="margin-top:10px">
+                <span class="cx-k">QQ 群</span>
+                <span class="cx-v cx-qq" id="cx-qq">641689285</span>
+                <button class="cx-go" id="cx-copy" type="button" data-copy="641689285">复制群号</button>
+            </div>
+
+            <p class="cx-note">可直接私信反馈或者相关笔记下回复，想加群找不到位置请私信站长邀请。</p>
+        </div>
+    </div>
+
     <div class="visit-modal" id="visit-modal" role="dialog" aria-modal="true" aria-hidden="true">
+        <div class="visit-fx" id="visit-fx" aria-hidden="true"></div>
         <div class="cal-wrap">
             <button class="visit-close" id="visit-close" type="button" aria-label="合上日历">✕</button>
             <div class="cal-stage">
@@ -2372,10 +4601,10 @@ const rawData = [
     const drawerEl = document.getElementById('notice-board');
     const drawerMask = document.getElementById('notice-mask');
     const drawerTitle = document.getElementById('notice-title');
-    const DRAWER_TITLES = { note: '店长留言', publisher: '头部厂商', indie: '独立团队' };
+    const DRAWER_TITLES = { note: '店长留言', publisher: '头部厂商', indie: '独立团队', wall: '留言墙', log: '更新日志' };
 
     function openDrawer(key) {
-        ['note', 'publisher', 'indie'].forEach(k => {
+        ['note', 'publisher', 'indie', 'wall', 'log'].forEach(k => {
             const p = document.getElementById('panel-' + k);
             if (p) p.hidden = (k !== key);
         });
@@ -2441,6 +4670,97 @@ const rawData = [
         poolReady = true;
     }
 
+    /* ---------- v3.45：手机端索引列表（桌面端被 CSS 关掉，不参与排版） ----------
+       复用 renderGames 已经筛好排好的那份数组，所以搜索和排序跟桌面完全同一套状态 */
+    var miEl = null;
+    function miLetter(name) {
+        try {
+            if (window.C72Lib && typeof window.C72Lib.letterOf === 'function') return String(window.C72Lib.letterOf(name)).toUpperCase();
+        } catch (e) {}
+        var c = String(name || '').charAt(0).toUpperCase();
+        return /[A-Z]/.test(c) ? c : '#';
+    }
+    function ensureMobileIndex() {
+        if (miEl && miEl.parentNode) return miEl;
+        var grid = document.getElementById('game-grid');
+        if (!grid || !grid.parentNode) return null;
+        miEl = document.createElement('div');
+        miEl.id = 'mobile-index';
+        miEl.setAttribute('role', 'list');
+        grid.parentNode.insertBefore(miEl, grid.nextSibling);
+        miEl.addEventListener('click', function (e) {
+            var row = e.target.closest ? e.target.closest('.mi-row') : null;
+            if (!row) return;
+            var name = row.getAttribute('data-name');
+            var g = null;
+            for (var i = 0; i < gamesData.length; i++) {
+                if (gamesData[i].name === name) { g = gamesData[i]; break; }
+            }
+            if (g) { tick('tap'); openModal(g); }
+        });
+        return miEl;
+    }
+    function renderMobileIndex(list) {
+        var box = ensureMobileIndex();
+        if (!box) return;
+        var map = {}, order = [];
+        for (var i = 0; i < list.length; i++) {
+            var L = miLetter(list[i].name);
+            if (!map[L]) { map[L] = []; order.push(L); }
+            map[L].push(list[i]);
+        }
+        order.sort(function (a, b) {
+            if (a === '#') return -1;   /* v3.54：# 组排最前，第一款是 1比1人形食玩 */
+            if (b === '#') return 1;
+            return a < b ? -1 : 1;
+        });
+        var html = '';
+        for (var k = 0; k < order.length; k++) {
+            var L2 = order[k], arr = map[L2];
+            html += '<div class="mi-letter" role="heading"><b>' + L2 + '</b><i>' + arr.length + '</i></div>';
+            for (var j = 0; j < arr.length; j++) {
+                var g = arr[j];
+                html += '<div class="mi-row" role="listitem" data-name="' + String(g.name).replace(/"/g, '&quot;') + '">'
+                      +   '<img class="mi-ico" src="' + g.cover + '" alt="" loading="lazy">'
+                      +   '<span class="mi-name">' + g.name + '</span>'
+                      +   '<span class="mi-type">' + miType(g) + '</span>'
+                      + '</div>';
+            }
+        }
+        if (!list.length) html = '<div class="mi-empty">[ ERR: 后厨没食材了，老板正在补货... ]</div>';
+        box.innerHTML = html;
+        if (!miLibReady()) miWaitLib();   /* 首字表还没到就先按 A/# 排，到了再补一次 */
+    }
+    /* 检索大纲那份脚本比这里晚执行，C72Lib.letterOf 才有中文首字表 */
+    var miRetry = 0;
+    function miLibReady() {
+        return !!(window.C72Lib && typeof window.C72Lib.letterOf === 'function');
+    }
+    function miWaitLib() {
+        if (miLibReady() || miRetry >= 10) return;
+        miRetry++;
+        setTimeout(function () {
+            if (miLibReady()) { try { renderGames(); } catch (e) {} } else { miWaitLib(); }
+        }, 220);
+    }
+
+    /* ---------- v3.46：锁滚动 ----------
+       老写法是 document.body.style.overflow = 'hidden'。body 一旦 hidden 就自己变成滚动容器，
+       sticky 导航栏的粘附基准就从视口变成 body 顶部；页面滚到下面时 html 的 scrollTop 还在，
+       body 却贴在文档最上面，于是整条导航栏跟着滚出屏幕——表现就是「滚下去再开弹窗，菜单的字没了」。
+       改成锁 html：html 仍是滚动元素，滚动位置保留、sticky 仍以视口为基准。 */
+    function lockScroll() {
+        /* v3.47：只锁 html 就够，别再给 body 补 padding-right。
+           html 关掉滚动条时 body 的宽度本来就没变（实测 .main-layout 左边界锁前锁后都是 8），
+           再补一条内边距反而把内容整体推左 5px —— 开弹窗时背景"动一下"就是这么来的。 */
+        document.body.style.removeProperty('overflow');
+        document.documentElement.style.overflow = 'hidden';
+    }
+    function unlockScroll() {
+        document.documentElement.style.removeProperty('overflow');
+        document.body.style.removeProperty('overflow');
+    }
+
     function renderGames() {
         const grid = document.getElementById('game-grid');
         const title = document.getElementById('section-title');
@@ -2479,6 +4799,7 @@ const rawData = [
             });
         }
         grid.replaceChildren(frag);
+        renderMobileIndex(filtered);   /* v3.45：索引列表吃同一份 filtered，搜索/排序自动同步 */
     }
 
     /* ---------- 出餐状态分档 ----------
@@ -2683,7 +5004,7 @@ const rawData = [
 
         modalEl.classList.add('open');
         modalEl.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        lockScroll();
         requestAnimationFrame(fitPosterSize);
         applyPosterTone();
     }
@@ -2770,7 +5091,7 @@ const rawData = [
         if (modalEl.classList.contains('open')) tick('tap');
         modalEl.classList.remove('open');
         modalEl.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+        unlockScroll();
     }
 
     modalEl.addEventListener('click', (e) => {
@@ -2979,7 +5300,7 @@ const rawData = [
             const logo = (typeof PUB_LOGOS !== 'undefined') ? PUB_LOGOS[p.name] : null;
             const idx = PUB_ALL.indexOf(p);
             return `
-            <a class="pub-card" data-idx="${idx}" href="${p.link}" target="_blank" rel="noopener" title="打开 ${p.name} 官网">
+            <a class="pub-card${AVATAR_NAMES[p.name] ? ' avatar-card' : ''}" data-idx="${idx}" href="${p.link}" target="_blank" rel="noopener" title="打开 ${p.name} 官网">
                 ${logo
                     ? `<img class="pub-logo${AVATAR_NAMES[p.name] ? ' avatar' : (LOGO_DARK[p.name] ? ' on-dark' : '')}" src="${logo}" alt="${p.name} logo">`
                     : `<div class="pub-logo-fallback">${p.name.slice(0, 2)}</div>`}
@@ -3068,6 +5389,16 @@ const rawData = [
     ];
     const CURATION_NOTE = '※ 全凭店长个人喜好随机排列，不分排名先后，不代表大众口味。';
 
+    /* v3.45：手机端判定与「类型」文案（名片和索引列表共用） */
+    function isPhone() {
+        return !!(window.matchMedia && window.matchMedia('(max-width: 760px)').matches);
+    }
+    function miType(g) {
+        if (!g) return '';
+        var t = (g.tags || []).slice(0, 2).join(' · ');
+        return t || g.cat || '';
+    }
+
     (function initCuration() {
         const root = document.getElementById('curation');
         if (!root) return;
@@ -3080,6 +5411,7 @@ const rawData = [
         let setIdx = 0;      // 当前主题
         let rotIdx = 0;      // 轮次指针（定时器在推它）
         let openIdx = 0;     // 当前摊开的是第几张
+        let curList = [];    // 当前主题的这五款，paint 时按端取竖版/横版海报
         let hovering = false;
         let timer = null;
         const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3090,8 +5422,25 @@ const rawData = [
 
         function paint() {
             Array.prototype.forEach.call(stageEl.children, (el, i) => {
-                el.classList.toggle('open', i === openIdx);
-                el.setAttribute('aria-expanded', i === openIdx ? 'true' : 'false');
+                const open = i === openIdx;
+                el.classList.toggle('open', open);
+                el.setAttribute('aria-expanded', open ? 'true' : 'false');
+                const g = curList[i];
+                const img = el.querySelector('.c-poster');
+                if (!g || !img) return;
+                if (!isPhone()) {
+                    /* 桌面：和 v3.47 一模一样，封面图，不换源、不放大 */
+                    const srcPc = g.poster || g.cover;
+                    if (img.getAttribute('src') !== srcPc) img.setAttribute('src', srcPc);
+                    img.style.objectFit = '';
+                    img.style.objectPosition = '';
+                    return;
+                }
+                /* 手机：海报铺满整张卡（折叠的也铺，只是压暗虚化），取横版图，没有就退回封面 */
+                const srcPh = (typeof POSTERS !== 'undefined' && POSTERS[g.name]) || g.cover;
+                if (img.getAttribute('src') !== srcPh) img.setAttribute('src', srcPh);
+                img.style.objectFit = 'cover';
+                img.style.objectPosition = 'center 32%';
             });
         }
 
@@ -3099,6 +5448,7 @@ const rawData = [
             const set = CURATION_SETS[setIdx];
             const list = gamesOf(set);
             if (!list.length) return;
+            curList = list;
             tabsEl.innerHTML = CURATION_SETS.map((s, i) =>
                 `<button class="curation-tab${i === setIdx ? ' active' : ''}" type="button" role="tab"
                          aria-selected="${i === setIdx}" data-set="${i}">${s.title}</button>`).join('');
@@ -3112,6 +5462,7 @@ const rawData = [
                     <div class="c-body">
                         <h3 class="c-name">${g.name}</h3>
                         <div class="c-dev">BY ${g.dev}</div>
+                        <div class="c-type">${miType(g)}</div>
                         <p class="c-intro">${g.intro}</p>
                         <div class="c-meta"><span class="c-st ${st}">${statusLabel(g)}</span><span class="c-more">点击看详情 ↗</span></div>
                     </div>
@@ -3126,7 +5477,7 @@ const rawData = [
             stopTimer();
             if (reduceMotion) return;   // 系统里关了动画就别自己跳
             timer = setInterval(() => {
-                if (hovering || swapping) return;
+                if (hovering || swapping) return;   /* v3.48：手机上跟着一起轮，和桌面同一套节奏 */
                 const n = stageEl.children.length;
                 if (!n) return;
                 if (rotIdx + 1 < n) {         // 当前主题还没轮完，走下一张
@@ -3165,6 +5516,7 @@ const rawData = [
         });
 
         stageEl.addEventListener('mouseover', e => {
+            if (isPhone()) return;   /* v3.50：触屏点一下会先发 mouseover，会把「点一下展开」这条判断顶掉 */
             const it = e.target.closest('.c-item');
             if (!it) return;
             hovering = true;
@@ -3172,14 +5524,17 @@ const rawData = [
             if (i !== openIdx) { openIdx = i; paint(); }
         });
         stageEl.addEventListener('mouseleave', () => {
+            if (isPhone()) return;
             hovering = false;
             if (openIdx !== rotIdx) { openIdx = rotIdx; paint(); }   // 回到轮次上那张
         });
         stageEl.addEventListener('focusin', e => {
+            if (isPhone()) return;
             const it = e.target.closest('.c-item');
             if (it) { hovering = true; openIdx = +it.dataset.i; paint(); }
         });
         stageEl.addEventListener('focusout', () => {
+            if (isPhone()) return;
             hovering = false;
             if (openIdx !== rotIdx) { openIdx = rotIdx; paint(); }
         });
@@ -3190,7 +5545,15 @@ const rawData = [
         };
         stageEl.addEventListener('click', e => {
             const it = e.target.closest('.c-item');
-            if (it) openItem(it);
+            if (it) {
+                /* v3.48：手机上点第一下只摊开这张，已经摊开的再点一次才开详情 */
+                if (isPhone() && openIdx !== +it.dataset.i) {
+                    openIdx = +it.dataset.i;
+                    paint();
+                    return;
+                }
+                openItem(it);
+            }
         });
         stageEl.addEventListener('keydown', e => {
             if (e.key !== 'Enter' && e.key !== ' ') return;
@@ -3462,6 +5825,83 @@ const rawData = [
     const ribbonEl = document.getElementById('fortune-ribbon');
     const visitBtn = document.getElementById('visit-btn');
 
+    /* ---------- v3.21：入场动画 + 彩蛋喷射 ----------
+       卡片不是从中间淡入，而是从「到此一游」按键那一小块地方翻出来、放大到中心。
+       起点坐标不写死，开卡前实测按键与卡片的中心差，写进 --vdx / --vdy。 */
+    var FX_COLORS = ['#ffce8c', '#e0592f', '#ffeab8', '#f2b13c', '#8fbf7a', '#c1462a'];
+
+    function fxReduced() {
+        try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { return false; }
+    }
+
+    function prepPortal(wrap) {
+        if (!wrap || !visitBtn) return;
+        var br = visitBtn.getBoundingClientRect();
+        var wr = wrap.getBoundingClientRect();
+        if (!wr.width || !wr.height) return;
+        var dx = (br.left + br.width / 2) - (wr.left + wr.width / 2);
+        var dy = (br.top + br.height / 2) - (wr.top + wr.height / 2);
+        wrap.style.setProperty('--vdx', Math.round(dx) + 'px');
+        wrap.style.setProperty('--vdy', Math.round(dy) + 'px');
+    }
+
+    function playPortal(wrap) {
+        if (!wrap) return;
+        wrap.classList.remove('vout');
+        wrap.classList.remove('vpop');
+        void wrap.offsetWidth;           /* 强制回流，保证同一张卡第二次打开还播 */
+        wrap.classList.add('vpop');
+        var done = function () { wrap.classList.remove('vpop'); wrap.removeEventListener('animationend', done); };
+        wrap.addEventListener('animationend', done);
+        // 兜底：万一 animationend 没送到（后台标签、被系统降频），到点也把类摘掉
+        setTimeout(function () { wrap.classList.remove('vpop'); }, 900);
+    }
+
+    /* 从卡片上沿往外喷一把：抛物线靠位移里那个 +200px 下落模拟，不做物理计算 */
+    function burstBits(count, cx, cy) {
+        var layer = document.getElementById('visit-fx');
+        if (!layer) return;
+        for (var i = 0; i < count; i++) {
+            var p = document.createElement('i');
+            p.className = 'fx-bit' + (i % 5 === 0 ? ' round' : '');
+            var ang = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.35;
+            var spd = 80 + Math.random() * 260;
+            p.style.left = cx + 'px';
+            p.style.top = cy + 'px';
+            p.style.width = (6 + Math.random() * 5) + 'px';
+            p.style.setProperty('--tx', (Math.cos(ang) * spd).toFixed(1) + 'px');
+            p.style.setProperty('--ty', (Math.sin(ang) * spd).toFixed(1) + 'px');
+            p.style.setProperty('--rt', Math.round(Math.random() * 720 - 360) + 'deg');
+            p.style.setProperty('--d', (0.9 + Math.random() * 0.8).toFixed(2) + 's');
+            p.style.setProperty('--dl', (Math.random() * 0.16).toFixed(2) + 's');
+            p.style.background = FX_COLORS[i % FX_COLORS.length];
+            layer.appendChild(p);
+            setTimeout((function (node) {
+                return function () { if (node.parentNode) node.parentNode.removeChild(node); };
+            })(p), 2100);
+        }
+    }
+
+    function celebrate(count, withRing) {
+        if (fxReduced()) return;
+        var layer = document.getElementById('visit-fx');
+        if (!layer) return;
+        var wrap = document.querySelector('.cal-wrap');
+        var r = wrap ? wrap.getBoundingClientRect() : null;
+        var cx = r ? r.left + r.width / 2 : window.innerWidth / 2;
+        var cy = r ? r.top + r.height * 0.32 : window.innerHeight * 0.38;
+        burstBits(count, cx, cy);
+        if (withRing) {
+            var rg = document.createElement('i');
+            rg.className = 'fx-ring';
+            rg.style.left = cx + 'px';
+            rg.style.top = cy + 'px';
+            layer.appendChild(rg);
+            setTimeout(function () { if (rg.parentNode) rg.parentNode.removeChild(rg); }, 900);
+        }
+    }
+
+
     function renderRec(g) {
         if (!g) return;
         recGame = g;
@@ -3495,7 +5935,11 @@ const rawData = [
     let flippedView = false;
     let lastOpenName = '';
 
-    function cardWidth() { return Math.min(640, Math.round(window.innerWidth * 0.94)); }
+    function cardWidth() {
+        /* v3.48：手机上按 92vw 收一点，别顶到屏幕两边 */
+        var r = (window.matchMedia && window.matchMedia('(max-width: 760px)').matches) ? 0.92 : 0.94;
+        return Math.min(640, Math.round(window.innerWidth * r));
+    }
     function cardHeight(w) { return Math.min(Math.round(window.innerHeight * 0.88), Math.round(w / CARD_RATIO)); }
 
     function fitCard() {
@@ -3550,6 +5994,7 @@ const rawData = [
 
     function openVisit() {
         if (!visitEl) return;
+        var justDrew = !seal;   /* 这次进来是不是刚抽的一张新卡：只有它值得庆祝 */
         if (!seal) {
             // 还没翻过：结果先藏在这一页后面，翻过去才作数
             pendingSeal = rollSeal();
@@ -3562,8 +6007,15 @@ const rawData = [
             if (!g) { g = rollGame(); if (g && seal) { seal.rec = g.name; saveSeal(seal); } }
             renderRec(g);
         }
+        var wrapCal = visitEl.querySelector('.cal-wrap');
+        if (wrapCal && !fxReduced()) prepPortal(wrapCal);
         visitEl.classList.add('open');
         fitCard();
+        if (wrapCal) {
+            playPortal(wrapCal);
+            /* v3.44：同一张卡关掉再打开不喷，抽过的卡不该再热闹一次 */
+            if (justDrew) setTimeout(function () { celebrate(18, true); }, 430);
+        }
         setTimeout(() => {
             placeName(true);
             const capNow = document.getElementById('cal-poster-cap');
@@ -3574,15 +6026,25 @@ const rawData = [
             lastOpenName = nameNow;
         }, 60);
         visitEl.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
+        lockScroll();
         tick('tap');
     }
 
     function closeVisit() {
         if (!visitEl || !visitEl.classList.contains('open')) return;
+        var wrapOut = visitEl.querySelector('.cal-wrap');
+        if (wrapOut && !fxReduced()) {
+            // 背景先淡、卡片同时缩回按键，收完再把类摘掉，避免闪一下全尺寸
+            wrapOut.classList.add('vout');
+            visitEl.classList.remove('open');
+            visitEl.setAttribute('aria-hidden', 'true');
+            unlockScroll();
+            setTimeout(function () { wrapOut.classList.remove('vout'); }, 360);
+            return;
+        }
         visitEl.classList.remove('open');
         visitEl.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+        unlockScroll();
     }
 
     if (visitBtn) visitBtn.addEventListener('click', () => { tapFx(visitBtn); openVisit(); });
@@ -3600,6 +6062,7 @@ const rawData = [
         if (!flipInner || flipInner.classList.contains('flipped')) return;
         tick('open');
         applyView(true, true);
+        // v3.44：翻面只揭签，不再喷庆祝粒子——热闹只留给「抽到新卡」那一下
         if (pendingSeal) {
             setTimeout(() => {
                 seal = pendingSeal;
@@ -3663,6 +6126,8 @@ const rawData = [
                 lastOpenName = g ? g.name : '';
                 card.classList.add('pop');
                 setTimeout(() => card.classList.remove('pop'), 400);
+                /* v3.44：重抽＝又抽了一张新的，这一把要喷 */
+                setTimeout(function () { celebrate(18, true); }, 90);
             }, 420);
         });
     }
@@ -3762,6 +6227,56 @@ const rawData = [
         if (e.key === 'Escape') closeVisit();
     });
 
+    /* ---------- v3.22：投稿 / 纠错 弹窗（小红书主页 / 小红书群 / QQ 群） ---------- */
+    (function () {
+        const cxBtn = document.getElementById('notice-submit');
+        const cxEl = document.getElementById('contact-modal');
+        if (!cxBtn || !cxEl) return;
+        function openCx() { cxEl.classList.add('open'); cxEl.setAttribute('aria-hidden', 'false'); }
+        function closeCx() { cxEl.classList.remove('open'); cxEl.setAttribute('aria-hidden', 'true'); }
+        cxBtn.addEventListener('click', openCx);
+        cxEl.addEventListener('click', (e) => {
+            if (e.target === cxEl || e.target.closest('#contact-close')) closeCx();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && cxEl.classList.contains('open')) closeCx();
+        });
+
+        // 群号点一下复制：file:// 下 clipboard API 常常不可用，留 execCommand 兜底
+        const copyBtn = document.getElementById('cx-copy');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                const qq = copyBtn.getAttribute('data-copy') || '';
+                let settled = false;
+                function done() {
+                    if (settled) return;
+                    settled = true;
+                    const old = copyBtn.textContent;
+                    copyBtn.textContent = '已复制';
+                    setTimeout(() => { copyBtn.textContent = old; }, 1600);
+                }
+                function fallback() {
+                    const t = document.createElement('textarea');
+                    t.value = qq;
+                    t.style.position = 'fixed'; t.style.opacity = '0';
+                    document.body.appendChild(t);
+                    t.select();
+                    try { document.execCommand('copy'); } catch (e) {}
+                    document.body.removeChild(t);
+                    done();
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(qq).then(done, fallback);
+                    // clipboard 在无权限 / 无用户手势时可能一直挂着不给结果，到点就走兜底
+                    setTimeout(fallback, 700);
+                } else {
+                    fallback();
+                }
+            });
+        }
+    })();
+
+
     updateSealUI();
 
     renderPublishers();
@@ -3769,6 +6284,899 @@ const rawData = [
 
     renderSidebar();
     renderGames();
+
+
+/* ==================================================================
+   v3.18 · 留言墙 + 顶部弹幕
+   数据源：Supabase REST（匿名读写；RLS 只放行 select 与 200 字内 insert）
+   网络不通时静默降级：只把连接点变红，页面其余部分完全不受影响
+   ================================================================== */
+(function () {
+    'use strict';
+
+    var SB_URL = 'https://cqktksfrigqsuehuyxix.supabase.co';
+    var SB_KEY = 'sb_publishable_vTKF3hwa-K5NINZUlyqsxw_12ApqTOb';
+    var EP = SB_URL + '/rest/v1/wall_messages';
+    var HEAD = {
+        apikey: SB_KEY,
+        Authorization: 'Bearer ' + SB_KEY,
+        'Content-Type': 'application/json'
+    };
+    var NICK_MAX = 12, BODY_MAX = 200, COOLDOWN = 30000, POLL = 12000, POOL_MAX = 60;
+    var LS_KEY = 'c72wall_last_at';
+    var BAN = ['加微', '加v', '加V', '微信', 'weixin', 'vx', 'wx号', '代练', '代充', '刷单', '返利',
+        '博彩', '赌博', '裸聊', '约炮', '二维码', 'qq群', 'QQ群', '点击链接', 'http://', 'https://', 'www.'];
+
+    var el = {};
+    var state = {
+        seen: 0, pool: [], fresh: [], ids: {}, slot: 0, trackAt: [0, 0],
+        ready: false, ok: null, busy: false, ambient: false, timer: null
+    };
+
+    function byId(id) { return document.getElementById(id); }
+    function nowMs() { return Date.now(); }
+
+    function relTime(iso) {
+        var t = 0;
+        try { t = new Date(iso).getTime(); } catch (e) { t = 0; }
+        if (!t) return '';
+        var d = Math.floor((nowMs() - t) / 1000);
+        if (d < 45) return '刚刚';
+        if (d < 3600) return Math.floor(d / 60) + ' 分钟前';
+        if (d < 86400) return Math.floor(d / 3600) + ' 小时前';
+        if (d < 86400 * 7) return Math.floor(d / 86400) + ' 天前';
+        var dt = new Date(t);
+        return (dt.getMonth() + 1) + '/' + dt.getDate();
+    }
+
+    function hashId(row) {
+        if (row && row.id != null) return 'i' + row.id;
+        return 'h' + String(row && row.body || '').slice(0, 24) + String(row && row.created_at || '');
+    }
+
+    function pushPool(row) {
+        var k = hashId(row);
+        if (state.ids[k]) return;
+        state.ids[k] = 1;
+        state.pool.push(row);
+        if (state.pool.length > POOL_MAX) {
+            var gone = state.pool.shift();
+            if (gone) delete state.ids[hashId(gone)];
+        }
+    }
+
+    /* ---------- 顶部弹幕 ---------- */
+    function spawn(row, isFresh) {
+        var layer = el.bar;
+        if (!layer) return false;
+        if (layer.children.length >= 4) return false;
+        var nick = String(row.nick == null ? '' : row.nick).trim() || '匿名食客';
+        var raw = String(row.body == null ? '' : row.body).replace(/\s+/g, ' ').trim();
+        var text = raw.length > 46 ? raw.slice(0, 46) + '…' : raw;
+        var node = document.createElement('div');
+        node.className = 'bar-x' + (isFresh ? ' fresh' : '');
+        var nk = document.createElement('span');
+        nk.className = 'b-nick';
+        nk.textContent = nick + '：';
+        node.appendChild(nk);
+        node.appendChild(document.createTextNode(text));
+        // 两排交替投放；同一排距上一条不足 4.2 秒就跳过，避免两条并排糊成一坨
+        var t = state.trackAt[1] <= state.trackAt[0] ? 1 : 0;
+        var nowT = Date.now();
+        if (nowT - state.trackAt[t] < 4200 && layer.children.length > 0) {
+            t = state.trackAt[0] <= state.trackAt[1] ? 0 : 1;
+            if (nowT - state.trackAt[t] < 4200) return false;
+        }
+        node.style.top = (t * 24) + 'px';
+        state.trackAt[t] = nowT;
+        layer.appendChild(node);
+        var w = node.offsetWidth || 240;
+        var dur = Math.min(32, Math.max(16, (window.innerWidth + w) / 56));
+        node.style.animationDuration = dur.toFixed(1) + 's';
+        node.addEventListener('animationend', function () {
+            if (node.parentNode) node.parentNode.removeChild(node);
+        });
+        return true;
+    }
+
+    function tickBarrage() {
+        var layer = el.bar;
+        if (!layer || document.hidden) return;
+        if (layer.children.length >= 4) return;
+        if (state.fresh.length) {
+            if (spawn(state.fresh[0], true)) state.fresh.shift();
+            return;
+        }
+        if (state.pool.length > 1 && Math.random() < 0.62) {
+            spawn(state.pool[Math.floor(Math.random() * state.pool.length)], false);
+        }
+    }
+
+    /* ---------- 数据 ---------- */
+    function setDot(ok) {
+        if (!el.dot) return;
+        if (ok) el.dot.classList.remove('off');
+        else el.dot.classList.add('off');
+    }
+
+    function setStatus(text, bad) {
+        if (!el.count) return;
+        el.count.textContent = text;
+        el.count.style.color = bad ? '#f87171' : '';
+    }
+
+    function req(method, url, body) {
+        var opt = { method: method, headers: HEAD, cache: 'no-store' };
+        if (body) {
+            opt.body = JSON.stringify(body);
+            opt.headers = {
+                apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY,
+                'Content-Type': 'application/json',
+                Prefer: 'return=representation'
+            };
+        }
+        return fetch(url, opt);
+    }
+
+    // PostgREST 在没有 return=representation 时返回空 body，直接 r.json() 会抛，统一走这里
+    function safeJson(r) {
+        return r.text().then(function (t) {
+            if (!t) return [];
+            try { return JSON.parse(t); } catch (e) { return []; }
+        });
+    }
+
+    function renderList(rows) {
+        var box = el.list;
+        if (!box) return;
+        box.textContent = '';
+        if (!rows.length) {
+            var empty = document.createElement('div');
+            empty.className = 'wall-empty';
+            empty.textContent = '墙上还空着，你写第一条。';
+            box.appendChild(empty);
+            return;
+        }
+        rows.forEach(function (row) {
+            var item = document.createElement('div');
+            item.className = 'wall-item';
+            var meta = document.createElement('div');
+            meta.className = 'w-meta';
+            var nk = document.createElement('span');
+            nk.className = 'w-nick';
+            nk.textContent = String(row.nick == null ? '' : row.nick).trim() || '匿名食客';
+            var tm = document.createElement('span');
+            tm.textContent = relTime(row.created_at);
+            meta.appendChild(nk);
+            meta.appendChild(tm);
+            var bd = document.createElement('div');
+            bd.className = 'w-body';
+            bd.textContent = String(row.body == null ? '' : row.body);
+            item.appendChild(meta);
+            item.appendChild(bd);
+            box.appendChild(item);
+        });
+    }
+
+    function load(silent) {
+        if (!state.ready) return;
+        var url = EP + '?select=id,nick,body,created_at&order=created_at.desc&limit=50';
+        var opt = { method: 'GET', cache: 'no-store' };
+        opt.headers = {
+            apikey: HEAD.apikey,
+            Authorization: HEAD.Authorization,
+            Prefer: 'count=exact'
+        };
+        fetch(url, opt).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return safeJson(r).then(function (rows) { return { rows: rows, r: r }; });
+        }).then(function (pack) {
+            var rows = pack.rows || [];
+            state.ok = true;
+            setDot(true);
+            var total = rows.length;
+            var cr = pack.r.headers.get('content-range') || '';
+            var m = /\/(\d+)$/.exec(cr);
+            if (m) total = parseInt(m[1], 10);
+            setStatus(total
+                ? ('留言 ' + total + ' 条 · 已上墙')
+                : '快来发布你的第一条留言吧！', false);
+
+            var maxId = state.seen;
+            var incoming = [];
+            rows.forEach(function (row) {
+                if (row.id != null && row.id > maxId) maxId = row.id;
+                if (row.id != null && row.id > state.seen && state.seen > 0) incoming.push(row);
+            });
+            state.seen = Math.max(state.seen, maxId);
+
+            renderList(rows);
+            rows.slice(0, 26).forEach(pushPool);
+
+            if (!state.ambient) {
+                state.ambient = true;
+                var picks = rows.slice(0, Math.min(6, rows.length));
+                picks.forEach(function (row, i) {
+                    if (i < 4) state.fresh.push(row);
+                });
+            } else if (incoming.length) {
+                incoming.reverse().forEach(function (row) { state.fresh.push(row); });
+            }
+        }).catch(function (e) {
+            state.ok = false;
+            setDot(false);
+            setStatus('评论加载失败（网络受限）· 稍后自动重试', true);
+            if (el.list && !el.list.children.length) {
+                var fb = document.createElement('div');
+                fb.className = 'wall-empty';
+                fb.textContent = '评论没加载上来：这台设备连不上留言服务器（常见于国内网络直接访问）。页面其余功能不受影响，换个网络再回来试试。';
+                el.list.appendChild(fb);
+            }
+            if (!silent && el.tip) {
+                el.tip.textContent = '连不上服务器，' + (e && e.message ? e.message : '网络问题');
+                el.tip.className = 'wall-tip bad';
+            }
+        });
+    }
+
+    /* ---------- 写 ---------- */
+    function tip(msg, kind) {
+        if (!el.tip) return;
+        el.tip.textContent = msg;
+        el.tip.className = 'wall-tip' + (kind === 'bad' ? ' bad' : (kind === 'good' ? ' good' : ''));
+    }
+
+    function send() {
+        if (!state.ready || state.busy) return;
+        var body = String(el.body.value || '').replace(/\s+/g, ' ').trim();
+        var nick = String(el.nick.value || '').replace(/\s+/g, ' ').trim().slice(0, NICK_MAX);
+        if (!body) { tip('先写点什么再贴吧', 'bad'); return; }
+        if (body.length > BODY_MAX) { tip('超过 200 字了，砍一点', 'bad'); return; }
+        var low = body.toLowerCase();
+        for (var i = 0; i < BAN.length; i++) {
+            if (low.indexOf(String(BAN[i]).toLowerCase()) >= 0) {
+                tip('这条里有广告或敏感字样，换个说法', 'bad');
+                return;
+            }
+        }
+        var last = 0;
+        try { last = parseInt(localStorage.getItem(LS_KEY) || '0', 10); } catch (e) { last = 0; }
+        var wait = COOLDOWN - (nowMs() - last);
+        if (last && wait > 0) {
+            tip('刚贴过一条，' + Math.ceil(wait / 1000) + ' 秒后再来', 'bad');
+            return;
+        }
+        state.busy = true;
+        if (el.send) { el.send.disabled = true; el.send.textContent = '正在贴…'; }
+        req('POST', EP, { nick: nick || null, body: body }).then(function (r) {
+            if (!r.ok) throw new Error('HTTP ' + r.status);
+            return safeJson(r);
+        }).then(function (rows) {
+            var row = (rows && rows[0]) || { id: null, nick: nick || null, body: body, created_at: new Date().toISOString() };
+            try { localStorage.setItem(LS_KEY, String(nowMs())); } catch (e) {}
+            if (row.id != null) state.seen = Math.max(state.seen, row.id);
+            pushPool(row);
+            state.fresh.push(row);
+            el.body.value = '';
+            if (el.len) { el.len.textContent = '0/' + BODY_MAX; el.len.classList.remove('near'); }
+            tip('贴上了，正在飘', 'good');
+            load(true);
+        }).catch(function (e) {
+            tip('没贴上去：' + (e && e.message ? e.message : '网络问题'), 'bad');
+        }).then(function () {
+            state.busy = false;
+            if (el.send) { el.send.disabled = false; el.send.textContent = '贴到墙上'; }
+        });
+    }
+
+    /* ---------- 装配 ---------- */
+    function bind() {
+        el.bar = byId('c72-barrage');
+        el.list = byId('wall-list');
+        el.dot = byId('wall-dot');
+        el.count = byId('wall-count');
+        el.tip = byId('wall-tip');
+        el.len = byId('wall-len');
+        el.body = byId('wall-body');
+        el.nick = byId('wall-nick');
+        el.send = byId('wall-send');
+        if (!el.list) return;
+        state.ready = true;
+
+        if (el.send) el.send.addEventListener('click', send);
+        if (el.body) {
+            el.body.addEventListener('input', function () {
+                var n = el.body.value.length;
+                if (el.len) {
+                    el.len.textContent = n + '/' + BODY_MAX;
+                    if (n >= BODY_MAX - 20) el.len.classList.add('near');
+                    else el.len.classList.remove('near');
+                }
+            });
+            el.body.addEventListener('keydown', function (e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); send(); }
+            });
+        }
+        var rf = byId('wall-refresh');
+        if (rf) rf.addEventListener('click', function () {
+            tip('正在刷新…');
+            load(false);
+        });
+        document.querySelectorAll('[data-drawer="wall"]').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                setTimeout(function () { load(true); }, 60);
+            });
+        });
+
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                if (state.timer) { clearInterval(state.timer); state.timer = null; }
+            } else if (!state.timer) {
+                state.timer = setInterval(function () { load(true); }, POLL);
+                load(true);
+            }
+        });
+
+        window.C72Wall = {
+            load: function () { load(false); },
+            post: function (nick, body) {
+                if (el.nick) el.nick.value = nick || '';
+                if (el.body) el.body.value = body || '';
+                send();
+            },
+            state: state
+        };
+
+        // 首屏先拉一次（弹幕需要内容），之后定时轮询
+        setTimeout(function () { load(true); }, 1400);
+        state.timer = setInterval(function () { load(true); }, POLL);
+        setInterval(tickBarrage, 2400);
+        tickBarrage();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bind);
+    } else {
+        bind();
+    }
+})();
+
+    /* ---------- v3.29：左边缘「检索大纲」+ A–Z 字母轴 ----------
+       一条贴在视口左边的常驻栏，默认收起只露 30px 竖签。
+       里面把站内全部游戏按名字列成一条长列（名字 + 小图标）；
+       自带搜索（只匹配名字）和名字排序（A→Z ↔ Z→A，点一下翻转，默认正序）。
+       列表左边一条 A–Z 字母轴：划过时指到的字母放大、上下逐渐收小；
+       点选后只留这个首字母开头的游戏，选中的字母高亮并弹出放大镜。
+       点条目：卡片在当前列表里就滚过去闪两下；被筛掉了就直接开详情弹窗。 */
+    (function () {
+        const COLL = new Intl.Collator('zh-Hans-CN', { numeric: true, sensitivity: 'base' });
+        const tap = function (k) { try { if (typeof tick === 'function') tick(k || 'tap'); } catch (e) { } };
+
+        /* 汉字首字 → 拼音首字母。只收站内 93 款的第一个字，够用且可逐条核对；
+           以后加新游戏时，把它的第一个字补进来即可（缺了会落到「#」）。 */
+        const PY = {
+            '爱': 'a', '白': 'b', '百': 'b', '崩': 'b',
+            '查': 'c', '尘': 'c', '沉': 'c', '长': 'c', '重': 'c',
+            '大': 'd', '第': 'd', '颠': 'd', '东': 'd',
+            '二': 'e',
+            '孤': 'g', '古': 'g', '归': 'g', '诡': 'g', '鬼': 'g',
+            '海': 'h', '河': 'h', '黑': 'h', '幻': 'h', '灰': 'h', '火': 'h',
+            '吉': 'j', '家': 'j', '剑': 'j', '姐': 'j', '今': 'j', '颈': 'j', '绝': 'j',
+            '蓝': 'l', '了': 'l', '粒': 'l', '龙': 'l', '楼': 'l', '蝼': 'l',
+            '旅': 'l', '洛': 'l', '落': 'l',
+            '迷': 'm', '明': 'm', '鸣': 'm',
+            '南': 'n', '逆': 'n', '女': 'n',
+            '泡': 'p',
+            '群': 'q',
+            '少': 's', '深': 's', '圣': 's', '苏': 's',
+            '它': 't', '太': 't',
+            '万': 'w', '王': 'w', '忘': 'w', '无': 'w', '雾': 'w',
+            '星': 'x',
+            '燕': 'y', '夜': 'y', '伊': 'y', '遗': 'y', '以': 'y', '异': 'y',
+            '阴': 'y', '银': 'y', '永': 'y', '与': 'y', '雨': 'y', '原': 'y', '源': 'y',
+            '战': 'z', '这': 'z', '纸': 'z'
+        };
+
+        function letterOf(name) {
+            const c = name.charAt(0);
+            if (/[A-Za-z]/.test(c)) return c.toLowerCase();
+            return PY[c] || '#';
+        }
+
+        let dir = 1;                    // 1 = A→Z，-1 = Z→A
+        let q = '';
+        let letter = '';                // 当前选中的首字母，空串 = 全部
+
+        const rail = document.createElement('div');
+        rail.className = 'lib-rail';
+        rail.id = 'lib-rail';
+        rail.innerHTML =
+            '<div class="lib-inner">' +
+                '<div class="lib-head">' +
+                    '<span class="lib-title">检索大纲</span>' +
+                    '<span class="lib-count" id="lib-count"></span>' +
+                '</div>' +
+                '<div class="lib-acts">' +
+                    '<button class="lib-sort" id="lib-sort" type="button" title="按名字排序：点一下切换正序 / 倒序">A→Z</button>' +
+                    '<button class="lib-all" id="lib-all" type="button" title="清除字母筛选，看全部">全部</button>' +
+                    '<button class="lib-pin" id="lib-pin" type="button" aria-pressed="false" aria-label="常驻这一栏" title="钉住：钉住后点画面空白也不会收起">' +
+                        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+                            '<path d="M9 4h6l-.8 5.2 3.3 3.4v1.4H6.5V12.6l3.3-3.4L9 4z"/>' +
+                            '<path d="M12 13v6"/>' +
+                        '</svg>' +
+                    '</button>' +
+                '</div>' +
+                '<div class="lib-search">' +
+                    '<input id="lib-q" type="text" placeholder="输入游戏名称搜索" autocomplete="off" spellcheck="false">' +
+                '</div>' +
+                '<div class="lib-main">' +
+                    '<div class="lib-az" id="lib-az" role="group" aria-label="按首字母筛选"></div>' +
+                    '<div class="lib-list" id="lib-list" role="list"></div>' +
+                '</div>' +
+            '</div>' +
+            '<button class="lib-tab" id="lib-tab" type="button" aria-label="展开检索大纲" aria-expanded="false"><span>检索大纲</span></button>';
+        const dividerEl = document.createElement('div');
+        dividerEl.className = 'lib-divider';
+        document.body.appendChild(dividerEl);
+        document.body.appendChild(rail);
+
+        /* 分界线 = 「店长精选」那条 section 的左边缘（它和 .main-layout 同宽同左缘）。
+           左空档 ≥ 236 时栏贴线（往左展开）；塞不下就退回贴视口左缘，分界线隐藏。 */
+        const LIB_GAP = 12;      /* 栏右缘与分界线之间留的空 */
+        const LIB_PREF = 320;     /* 宽屏想要的宽度 */
+        const LIB_MIN = 236;      /* 最窄也要这个宽，再窄名字就没法看了 */
+
+        function syncGeom() {
+            const cur = document.getElementById('curation') || document.querySelector('.content-area');
+            if (!cur) return;
+            const curationX = Math.round(cur.getBoundingClientRect().left);
+            const docW = document.documentElement.clientWidth;
+            /* 分界线贴着大纲的右缘，线和店长精选之间留 LIB_GAP 的空白 */
+            const lineX = curationX - LIB_GAP;
+            const fits = lineX >= LIB_MIN;
+            const w = fits ? Math.max(LIB_MIN, Math.min(LIB_PREF, lineX)) : LIB_MIN;
+            rail.style.setProperty('--lib-w', w + 'px');
+            rail.classList.toggle('atline', fits);
+            dividerEl.style.display = fits ? '' : 'none';
+            dividerEl.style.left = lineX + 'px';
+            if (fits) {
+                rail.style.left = '';
+                rail.style.right = Math.max(0, docW - lineX) + 'px';
+            } else {
+                rail.style.right = '';
+                rail.style.left = '0px';
+            }
+        }
+        syncGeom();
+        requestAnimationFrame(syncGeom);
+        window.addEventListener('resize', syncGeom);
+        window.addEventListener('load', syncGeom);
+
+        const tabBtn = rail.querySelector('#lib-tab');
+        const listEl = rail.querySelector('#lib-list');
+        const qEl = rail.querySelector('#lib-q');
+        const sortBtn = rail.querySelector('#lib-sort');
+        const allBtn = rail.querySelector('#lib-all');
+        const pinBtn = rail.querySelector('#lib-pin');
+        const countEl = rail.querySelector('#lib-count');
+        const azEl = rail.querySelector('#lib-az');
+
+        function setOpen(on) {
+            syncGeom();
+            rail.classList.toggle('open', !!on);
+            tabBtn.setAttribute('aria-expanded', on ? 'true' : 'false');
+            tabBtn.setAttribute('aria-label', on ? '收起检索大纲' : '展开检索大纲');
+        }
+
+        tabBtn.addEventListener('click', function () {
+            tap('tap');
+            setOpen(!rail.classList.contains('open'));
+        });
+        /* 图钉：钉住后这一栏常驻，点画面空白也不收起；再点取消，回到"点空白即收起" */
+        let pinned = false;
+        function setPin(on) {
+            pinned = !!on;
+            pinBtn.classList.toggle('on', pinned);
+            pinBtn.setAttribute('aria-pressed', pinned ? 'true' : 'false');
+            pinBtn.setAttribute('aria-label', pinned ? '取消常驻' : '常驻这一栏');
+            pinBtn.title = pinned ? '已钉住：点画面空白也不会收起' : '钉住：钉住后点画面空白也不会收起';
+        }
+        pinBtn.addEventListener('click', function () {
+            tap('tap');
+            setPin(!pinned);
+        });
+
+        /* 展开且没钉住时，点栏外任何地方就收起 */
+        document.addEventListener('pointerdown', function (e) {
+            if (!rail.classList.contains('open') || pinned) return;
+            if (rail.contains(e.target)) return;
+            tap('tap');
+            setOpen(false);
+        }, true);
+
+        let selName = '';
+
+        function markSel(name) {
+            selName = name || '';
+            rows.forEach(function (r) {
+                const on = r.dataset.name === selName;
+                r.classList.toggle('sel', on);
+                r.setAttribute('aria-pressed', on ? 'true' : 'false');
+            });
+            cardPool.forEach(function (card, key) {
+                card.classList.toggle('lib-target', key === selName);
+            });
+        }
+
+        function jumpTo(game) {
+            /* 点的是已经选中的那一条：再点一次就是取消，不跳、不闪 */
+            if (selName === game.name) { markSel(''); return; }
+            const card = cardPool.get(game.name);
+            markSel(game.name);
+            if (card && card.isConnected) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.classList.remove('lib-pulse');
+                void card.offsetWidth;
+                card.classList.add('lib-pulse');
+                setTimeout(function () { card.classList.remove('lib-pulse'); }, 1500);
+            } else {
+                openModal(game);
+            }
+        }
+
+        const rows = gamesData.map(function (game) {
+            const row = document.createElement('button');
+            row.type = 'button';
+            row.className = 'lib-row';
+            row.dataset.name = game.name;
+            row.dataset.letter = letterOf(game.name);
+            row.setAttribute('role', 'listitem');
+            row.title = game.name;          /* 名字放大后被省略号截了，鼠标停一下能看全 */
+
+            const img = document.createElement('img');
+            if (game.cover) { img.src = game.cover; img.alt = ''; } else {
+                img.className = 'lib-ph'; img.alt = '';
+            }
+            img.width = 26; img.height = 26; img.loading = 'lazy';
+            img.decoding = 'async';
+
+            const name = document.createElement('span');
+            name.className = 'lib-name';
+            name.textContent = game.name;
+
+            row.appendChild(img);
+            row.appendChild(name);
+            row.addEventListener('click', function () { tap('tap'); jumpTo(game); });
+            return row;
+        });
+
+        /* ---- 字母轴：只列出真的有人用的字母，空字母压低透明度 ---- */
+        const letters = ['#'].concat('abcdefghijklmnopqrstuvwxyz'.split(''));
+        const have = {};
+        rows.forEach(function (r) { have[r.dataset.letter] = (have[r.dataset.letter] || 0) + 1; });
+
+        const azItems = letters.map(function (L) {
+            const b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'lib-az-item';
+            b.dataset.letter = L;
+            b.textContent = L;
+            if (!have[L]) b.classList.add('zero');
+            b.title = (L === '#' ? '数字 / 符号开头' : L.toUpperCase() + ' 开头') + ' · ' + (have[L] || 0) + ' 款';
+            b.addEventListener('click', function () {
+                if (!have[L]) return;
+                tap('tap');
+                letter = (letter === L) ? '' : L;
+                paint();
+                listEl.scrollTop = 0;
+            });
+            azEl.appendChild(b);
+            return b;
+        });
+
+        /* Dock 式放大：指到哪个字母，哪个最大，上下按距离逐渐收小。
+           位置用 offsetTop 算（不受 transform 影响），避免自己放大又把自己顶回去。 */
+        function dockAt(clientY) {
+          const ar = azEl.getBoundingClientRect();
+          const y = clientY - ar.top + azEl.scrollTop;
+          azItems.forEach(function (it) {
+            if (it.classList.contains('zero')) return;
+            const mid = it.offsetTop + it.offsetHeight / 2;
+            const k = Math.max(0, 1 - Math.abs(y - mid) / 64);
+            const base = (it.dataset.letter === letter) ? 1.12 : 1;
+            it.style.transform = 'scale(' + Math.min(1.42, base + k * 0.42).toFixed(3) + ')';
+          });
+        }
+        function dockReset() {
+          azItems.forEach(function (it) {
+            const base = (it.dataset.letter === letter) ? 1.12 : 1;
+            it.style.transform = 'scale(' + base + ')';
+          });
+        }
+        azEl.addEventListener('pointermove', function (e) { dockAt(e.clientY); });
+        azEl.addEventListener('pointerleave', dockReset);
+
+        function paint() {
+            const kw = q.trim().toLowerCase();
+            const shown = rows.filter(function (row) {
+                if (letter && row.dataset.letter !== letter) return false;
+                return !kw || row.dataset.name.toLowerCase().indexOf(kw) > -1;
+            });
+            shown.sort(function (a, b) {
+                return COLL.compare(a.dataset.name, b.dataset.name) * dir;
+            });
+            const frag = document.createDocumentFragment();
+            shown.forEach(function (row) { frag.appendChild(row); });
+            listEl.replaceChildren(frag);
+            if (!shown.length) {
+                const empty = document.createElement('div');
+                empty.className = 'lib-empty';
+                empty.textContent = letter ? '[ 这一格还没有菜 ]' : '[ 没有这个菜名 ]';
+                listEl.appendChild(empty);
+            }
+            countEl.textContent = shown.length + ' / ' + rows.length;
+
+            /* 字母轴高亮 */
+            azItems.forEach(function (it) {
+                it.classList.toggle('active', it.dataset.letter === letter);
+            });
+            allBtn.classList.toggle('on', !!letter);
+            allBtn.textContent = letter ? '清除' : '全部';
+            allBtn.title = letter
+                ? '清除字母筛选，回到全部 ' + rows.length + ' 款'
+                : '当前已是全部 ' + rows.length + ' 款';
+            dockReset();
+        }
+
+        allBtn.addEventListener('click', function () {
+            if (!letter) return;
+            tap('tap');
+            letter = '';
+            paint();
+            listEl.scrollTop = 0;
+        });
+
+        sortBtn.addEventListener('click', function () {
+            dir = -dir;
+            sortBtn.textContent = dir === 1 ? 'A→Z' : 'Z→A';
+            sortBtn.setAttribute('data-dir', dir === 1 ? 'asc' : 'desc');
+            tap('tap');
+            paint();
+        });
+
+        qEl.addEventListener('input', function () { q = qEl.value; paint(); });
+        qEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') { qEl.value = ''; q = ''; paint(); }
+            if (e.key === 'Enter') {
+                const first = listEl.querySelector('.lib-row');
+                if (first) first.click();
+            }
+        });
+
+        paint();
+        window.C72Lib = {
+            rail: rail,
+            rows: rows,
+            open: function () { setOpen(true); },
+            close: function () { setOpen(false); },
+            repaint: paint,
+            setDir: function (d) { dir = d < 0 ? -1 : 1; sortBtn.textContent = dir === 1 ? 'A→Z' : 'Z→A'; paint(); },
+            setPin: setPin,
+            isPinned: function () { return pinned; },
+            syncGeom: syncGeom,
+            clearLetter: function () { letter = ''; paint(); },
+            selName: function () { return selName; },
+            clearSel: function () { markSel(''); },
+            setLetter: function (L) { letter = L || ''; paint(); listEl.scrollTop = 0; },
+            letterOf: letterOf,
+            letters: letters
+        };
+    })();
+</script>
+
+<script>
+/* ==================================================================
+   v3.17 · 移动端重构脚本
+   桌面端不做任何事：断点不匹配时把节点原样放回去。
+   ================================================================== */
+(function () {
+    var mq = window.matchMedia('(max-width: 760px)');
+
+    var bar     = document.getElementById('mobile-bar');
+    var top     = bar && bar.querySelector('.m-top');
+    var tools   = document.querySelector('.content-header-tools');
+    var hang    = document.getElementById('visit-hang');
+    var cats    = document.getElementById('quick-cats');
+    var sheet   = document.getElementById('filter-sheet');
+    var mask    = document.getElementById('filter-mask');
+    var fmBody  = sheet && sheet.querySelector('.fm-body');
+    var fbtn    = document.getElementById('m-filter-btn');
+    var badge   = fbtn && fbtn.querySelector('.n');
+    var fmReset = sheet && sheet.querySelector('.fm-reset');
+    var fmClose = sheet && sheet.querySelector('.fm-close');
+    var fmApply = sheet && sheet.querySelector('.fm-apply');
+
+    var sidebar  = document.getElementById('sidebar-container');
+    var search   = document.getElementById('search-wrap');
+    var countEl  = document.getElementById('game-count');
+    var sortWrap = document.querySelector('.content-header-tools .sort-wrap');
+    var header   = document.querySelector('.content-area .content-header');
+    var curation = document.getElementById('curation');
+    var grid     = document.getElementById('game-grid');
+
+    if (!bar || !top || !cats || !sheet || !fmBody || !sidebar || !search || !fbtn) return;
+
+    /* ---------- 记住原始位置，桌面还原 ---------- */
+    var orig = {};
+    function remember(k, el) { if (el) orig[k] = { p: el.parentNode, n: el.nextSibling }; }
+    remember('search', search);
+    remember('count', countEl);
+    remember('sort', sortWrap);
+    remember('sidebar', sidebar);
+    remember('curation', curation);
+    remember('cats', cats);
+    remember('mbar', bar);
+
+    function putBack(k, el) {
+        var o = orig[k];
+        if (!o || !o.p || el.parentNode === o.p) return;
+        if (o.n && o.n.parentNode === o.p) o.p.insertBefore(el, o.n);
+        else o.p.appendChild(el);
+    }
+
+    /* ---------- 分区 chips（从侧栏的分区按钮长出来） ---------- */
+    var catBtns = Array.prototype.slice.call(
+        sidebar.querySelectorAll('[data-reset], [data-group="cat"]')
+    );
+    var chips = [];
+    var qcScroll = document.createElement('div');
+    qcScroll.className = 'qc-scroll';
+    cats.appendChild(qcScroll);
+    catBtns.forEach(function (b) {
+        var c = document.createElement('button');
+        c.type = 'button';
+        c.className = 'qc';
+        c.textContent = (b.textContent || '').replace(/\d+\s*$/, '').trim();
+        c.dataset.k = b.dataset.value || 'all';
+        c.addEventListener('click', function () { b.click(); });
+        qcScroll.appendChild(c);
+        chips.push(c);
+    });
+
+    /* 计数挂在 chips 行末尾，跟着 renderGames 自己更新 */
+    if (countEl && countEl.parentNode !== cats) cats.appendChild(countEl);
+
+    /* ---------- 同步高亮 / 筛选计数 ---------- */
+    function mirror() {
+        var on = {};
+        catBtns.forEach(function (b) { on[b.dataset.value || 'all'] = b.classList.contains('active'); });
+        chips.forEach(function (c) { c.classList.toggle('on', !!on[c.dataset.k]); });
+
+        var n = 0;
+        sidebar.querySelectorAll('.filter-btn.active').forEach(function (b) {
+            if (b.hasAttribute('data-reset') || b.dataset.group === 'cat') return;
+            n++;
+        });
+        if (badge) { badge.textContent = n; badge.hidden = !n; }
+        fbtn.classList.toggle('on', n > 0);
+
+        if (fmApply && grid) {
+            fmApply.textContent = '看 ' + grid.querySelectorAll('.game-card').length + ' 道菜';
+        }
+    }
+
+    if (window.MutationObserver) {
+        var mo = new MutationObserver(mirror);
+        if (grid) mo.observe(grid, { childList: true });
+        mo.observe(sidebar, { attributes: true, subtree: true, attributeFilter: ['class'] });
+    }
+
+    /* ---------- 抽屉开关 ---------- */
+    function openSheet() {
+        sheet.classList.add('open');
+        sheet.setAttribute('aria-hidden', 'false');
+        if (mask) mask.classList.add('show');
+        lockScroll();
+        mirror();
+    }
+    function closeSheet() {
+        sheet.classList.remove('open');
+        sheet.setAttribute('aria-hidden', 'true');
+        if (mask) mask.classList.remove('show');
+        unlockScroll();
+    }
+    fbtn.addEventListener('click', openSheet);
+    if (fmClose) fmClose.addEventListener('click', closeSheet);
+    if (fmApply) fmApply.addEventListener('click', closeSheet);
+    if (mask) mask.addEventListener('click', closeSheet);
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && sheet.classList.contains('open')) closeSheet();
+    });
+    if (fmReset) {
+        fmReset.addEventListener('click', function () {
+            var c = sidebar.querySelector('#clear-all');
+            if (c) c.click();
+            mirror();
+        });
+    }
+
+    /* ---------- 精选折叠：v3.45 起手机端也一直展开，这个「展开 ▾」按钮去掉了 ---------- */
+    var curBtn = null;   /* 变量名留着：下面还原布局那几句里还有 if (curBtn) 的老判断 */
+
+    /* ---------- 摆放 / 还原 ---------- */
+    /* v3.53：分区 chips 在手机上贴到索引列表上方（店长精选之后），不再顶着搜索框 */
+    function placeCats() {
+        if (!cats) return;
+        var idx = document.getElementById('mobile-index');
+        if (idx && idx.parentNode) {
+            if (cats.nextElementSibling !== idx || cats.parentNode !== idx.parentNode) {
+                idx.parentNode.insertBefore(cats, idx);
+            }
+            return;
+        }
+        /* 索引列表还没建出来（第一次渲染前）：先放在内容区最上头 */
+        if (header && header.parentNode && cats.parentNode !== header.parentNode) {
+            header.parentNode.insertBefore(cats, header.parentNode.firstChild);
+        }
+    }
+
+    /* v3.65：搜索条不再顶着导航栏，挪到「店长精选」下面、chips 上面那条空位 */
+    function placeBar() {
+        if (!bar || !cats || !cats.parentNode) return;
+        if (bar.parentNode !== cats.parentNode || bar.nextElementSibling !== cats) {
+            cats.parentNode.insertBefore(bar, cats);
+        }
+    }
+
+    function toMobile() {
+        top.insertBefore(search, fbtn);
+        placeCats();
+        placeBar();
+        setTimeout(function () { if (mq.matches) { placeCats(); placeBar(); } }, 0);
+        if (hang && hang.parentNode !== document.body) document.body.appendChild(hang);
+        if (sortWrap && fmBody.firstChild !== sortWrap) fmBody.insertBefore(sortWrap, fmBody.firstChild);
+        if (sidebar.parentNode !== fmBody) fmBody.appendChild(sidebar);
+        if (curation) curation.classList.remove('cur-min');   /* v3.45：手机端也不折叠 */
+        mirror();
+    }
+    function toDesktop() {
+        closeSheet();
+        putBack('mbar', bar);
+        putBack('cats', cats);
+        putBack('search', search);
+        if (hang && tools) tools.appendChild(hang);
+        putBack('sort', sortWrap);
+        putBack('sidebar', sidebar);
+        putBack('count', countEl);
+        if (curation) curation.classList.remove('cur-min');
+    }
+
+    function place() { if (mq.matches) toMobile(); else toDesktop(); }
+    place();
+    if (mq.addEventListener) mq.addEventListener('change', place);
+    else if (mq.addListener) mq.addListener(place);
+
+    /* ---------- 手机菜单（沿用 v3.16） ---------- */
+    /* v3.51：手机顶栏的「投稿」＝抽屉里那颗 📮，走同一个弹窗 */
+    var navSubmit = document.getElementById('nav-submit-entry');
+    if (navSubmit) {
+        navSubmit.addEventListener('click', function () {
+            var src = document.getElementById('notice-submit');
+            if (src) src.click();
+        });
+    }
+
+    var menuBtn = document.getElementById('nav-mobile-menu');
+    if (menuBtn) {
+        menuBtn.addEventListener('click', function () {
+            var first = document.querySelector('.nav-drawer-btn[data-drawer]');
+            if (first) first.click();
+        });
+    }
+})();
 </script>
 </body>
+
+</body>
+
 </html>
