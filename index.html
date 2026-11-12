@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <!--
   ===========================================================================
+  C-72 自助馆 · v3.82（2026-11-12）· 手机端去掉留言墙 + 减负
+  基线：v3.81
+  1) 手机端不再有留言墙：顶栏那颗「墙」不显示，弹幕层藏掉，脚本在手机上直接
+     不装配（不拉 Supabase、不 12 秒轮询、不放弹幕动画）。
+  2) 手机端关掉顶栏与精选名次牌的 backdrop-filter —— 真机上每帧重算模糊最吃
+     GPU，换成近似实底，看起来没差别。桌面端一律不动。
+  ===========================================================================
+-->
+<!--
+  ===========================================================================
   C-72 自助馆 · v3.81（2026-11-12）· 手机上只留店长留言的头和尾
   基线：v3.80
   手机端：开头导语 + 结尾（欢迎投稿 + 祝大家用餐愉快）留着，中间从「使用方法」
@@ -3328,6 +3338,28 @@
 /* v3.80：手机端 .notice-desc.sub 整条被藏起来了，店长留言的说明改挂 .note-p */
 .note-p { font-size: .85rem; color: var(--text-sub); margin-top: 6px; }
 </style>
+
+<style id="v382-mob">
+/* =====================================================================
+   v3.82 · 手机端减负
+   1) 留言墙整块从手机上去掉：入口按钮、弹幕层都不出（脚本那边也不再拉数据）
+   2) 手机上没有独显，顶栏那条 backdrop-filter 每帧都要重算模糊，最费；
+      换成几乎不透明的实底，观感和原来一致
+   ===================================================================== */
+@media (max-width: 760px) {
+    .nav-drawer-btn[data-drawer="wall"] { display: none !important; }
+    #c72-barrage { display: none !important; }
+    .navbar {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        background: rgba(28, 25, 23, 0.97);
+    }
+    .c-rank {
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+    }
+}
+</style>
 </head>
 <body>
 <!-- v3.68：新手指引（四块暗层 + 一块高亮圈 + 一张说明卡） -->
@@ -6605,6 +6637,11 @@ const rawData = [
         el.nick = byId('wall-nick');
         el.send = byId('wall-send');
         if (!el.list) return;
+        // v3.82：手机端不做留言墙 —— 不拉数据、不轮询、不放弹幕
+        if (window.matchMedia && window.matchMedia('(max-width: 760px)').matches) {
+            state.ready = false;
+            return;
+        }
         state.ready = true;
 
         if (el.send) el.send.addEventListener('click', send);
